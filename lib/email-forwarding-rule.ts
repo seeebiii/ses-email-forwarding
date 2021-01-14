@@ -105,8 +105,7 @@ export class EmailForwardingRule extends Construct {
       ? props.bucket
       : new Bucket(this, 'EmailBucket', {
           publicReadAccess: false,
-          removalPolicy: RemovalPolicy.RETAIN,
-          encryption: BucketEncryption.KMS_MANAGED
+          removalPolicy: RemovalPolicy.RETAIN
         });
   }
 
@@ -171,9 +170,11 @@ export class EmailForwardingRule extends Construct {
         resources: ['*']
       })
     );
+    // the aws-lambda-ses-forwarder package is copying an object within the same bucket
+    // -> we need to specify the appropriate permissions here
     forwarderFunction.addToRolePolicy(
       new PolicyStatement({
-        actions: ['s3:GetObject', 's3:GetObjectAcl', 's3:GetObjectTagging', 's3:PutObject', 's3:PutObjectTagging'],
+        actions: ['s3:ListBucket', 's3:GetObject', 's3:GetObjectTagging', 's3:PutObject', 's3:PutObjectTagging'],
         resources: [bucket.bucketArn, `${bucket.bucketArn}/*`]
       })
     );
