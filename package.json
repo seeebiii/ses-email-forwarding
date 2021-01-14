@@ -1,25 +1,74 @@
 {
-  "name": "serverless-ses-emails",
+  "name": "@seeebiii/ses-email-forwarding",
   "version": "0.1.0",
+  "description": "AWS CDK construct using AWS SES and AWS Lambda to send and receive emails in Gmail or other email providers.",
+  "author": "Sebastian Hesse (https://www.sebastianhesse.de)",
+  "keywords": [
+    "aws",
+    "aws-cdk",
+    "aws cdk",
+    "aws-ses",
+    "aws ses",
+    "cdk-construct",
+    "email",
+    "email forwarding",
+    "gmail"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seeebiii/ses-email-forwarding"
+  },
   "scripts": {
     "build": "tsc",
+    "build:lambda": "node esbuild.js",
+    "lint": "eslint . --ext .ts",
+    "prettier": "prettier '{lib,test,lambda}/**/*.ts' --write",
     "watch": "tsc -w",
     "test": "jest"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.83.0",
-    "@types/jest": "^26.0.10",
-    "@types/node": "10.17.27",
+    "@aws-cdk/assert": "1.84.0",
+    "@types/aws-lambda": "^8.10.70",
+    "@types/jest": "26.0.20",
+    "@types/node": "^14.14.20",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "aws-lambda-ses-forwarder": "^5.0.0",
+    "esbuild": "^0.8.31",
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.4.2",
+    "prettier": "^2.2.1",
     "ts-jest": "^26.2.0",
-    "typescript": "~3.9.7"
+    "typescript": "^4.1.3"
   },
   "peerDependencies": {
-    "@aws-cdk/core": "1.83.0"
+    "@aws-cdk/aws-iam": "1.84.0",
+    "@aws-cdk/aws-lambda": "1.84.0",
+    "@aws-cdk/aws-logs": "1.84.0",
+    "@aws-cdk/aws-s3": "1.84.0",
+    "@aws-cdk/aws-ses": "1.84.0",
+    "@aws-cdk/aws-ses-actions": "1.84.0",
+    "@aws-cdk/aws-sns": "1.84.0",
+    "@aws-cdk/aws-ssm": "1.84.0",
+    "@aws-cdk/core": "1.84.0",
+    "@aws-cdk/custom-resources": "1.84.0"
   },
   "dependencies": {
-    "@aws-cdk/core": "1.83.0"
+    "@aws-cdk/aws-iam": "1.84.0",
+    "@aws-cdk/aws-lambda": "1.84.0",
+    "@aws-cdk/aws-logs": "1.84.0",
+    "@aws-cdk/aws-s3": "1.84.0",
+    "@aws-cdk/aws-ses": "1.84.0",
+    "@aws-cdk/aws-ses-actions": "1.84.0",
+    "@aws-cdk/aws-sns": "1.84.0",
+    "@aws-cdk/aws-ssm": "1.84.0",
+    "@aws-cdk/core": "1.84.0",
+    "@aws-cdk/custom-resources": "1.84.0",
+    "@seeebiii/ses-verify-identities": "^2.0.0"
   }
 }
