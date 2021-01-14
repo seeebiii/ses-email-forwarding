@@ -52,6 +52,12 @@ TODO
 
 TODO
 
+## TODO
+
+- Encrypt email files on S3 bucket by either using S3 bucket encryption (server side) or enable
+- Write tests
+- Extend this README
+
 ## Contributing
 
 I'm happy to receive any contributions!
