@@ -149,7 +149,7 @@ export class EmailForwardingRule extends Construct {
     const forwarderFunction = new Function(this, 'EmailForwardingFunction', {
       runtime: Runtime.NODEJS_12_X,
       handler: 'index.handler',
-      code: AssetCode.fromAsset(`${path.resolve(__dirname)}/build`),
+      code: AssetCode.fromAsset(`${path.resolve(__dirname)}/../build`),
       timeout: Duration.seconds(30),
       environment: {
         ENABLE_LOGGING: 'true',
