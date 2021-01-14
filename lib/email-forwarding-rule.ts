@@ -197,7 +197,7 @@ export class EmailForwardingRule extends Construct {
 
     const entryBasePath = `${path.resolve(__dirname)}/../build/index`;
     const forwarderFunction2 = new NodejsFunction(this, 'EmailForwardingFunction2', {
-      entry: entryBasePath + fs.existsSync(entryBasePath + '.ts') ? '.ts' : '.js',
+      entry: entryBasePath + (fs.existsSync(entryBasePath + '.ts') ? '.ts' : '.js'),
       timeout: Duration.seconds(30),
       environment: {
         ENABLE_LOGGING: 'true',
