@@ -9,6 +9,29 @@ const bucketName = process.env.BUCKET_NAME;
 const bucketPrefix = process.env.BUCKET_PREFIX;
 const isLoggingEnabled = process.env.ENABLE_LOGGING === 'true';
 
+// store the email mapping outside of the handler function to not load it every time the Lambda function is invoked
+let emailMapping: any = null;
+
+function log(message: string, ...obj: any): void {
+  if (isLoggingEnabled) {
+    console.log(message, ...obj);
+  }
+}
+
+async function loadEmailMappingFromSsm() {
+  if (!emailMapping) {
+    const ssmValue = await ssm
+      .getParameter({
+        Name: ssmKey
+      })
+      .promise();
+
+    if (ssmValue.Parameter?.Value) {
+      emailMapping = JSON.parse(ssmValue.Parameter.Value);
+    }
+  }
+}
+
 exports.handler = async (event: S3Event, context: Context): Promise<void> => {
   log('Received SES event : ', JSON.stringify(event));
 
@@ -19,19 +42,14 @@ exports.handler = async (event: S3Event, context: Context): Promise<void> => {
     return;
   }
 
-  const ssmValue = await ssm
-    .getParameter({
-      Name: ssmKey
-    })
-    .promise();
+  await loadEmailMappingFromSsm();
 
-  if (ssmValue.Parameter?.Value) {
-    const mapping = JSON.parse(ssmValue.Parameter.Value);
+  if (emailMapping) {
     const config = {
       fromEmail: fromEmail,
       emailBucket: bucketName,
       emailKeyPrefix: bucketPrefix,
-      forwardMapping: mapping
+      forwardMapping: emailMapping
     };
 
     log('Forwarding email with config: ', JSON.stringify(config));
@@ -56,9 +74,3 @@ exports.handler = async (event: S3Event, context: Context): Promise<void> => {
 
   return Promise.resolve();
 };
-
-function log(message: string, ...obj: any): void {
-  if (isLoggingEnabled) {
-    console.log(message, ...obj);
-  }
-}
