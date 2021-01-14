@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
 import { ReceiptRule, ReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
 import { Bucket, BucketEncryption } from '@aws-cdk/aws-s3';
@@ -148,7 +149,7 @@ export class EmailForwardingRule extends Construct {
     const forwarderFunction = new Function(this, 'EmailForwardingFunction', {
       runtime: Runtime.NODEJS_12_X,
       handler: 'index.handler',
-      code: AssetCode.fromAsset('./build'),
+      code: AssetCode.fromAsset(`${path.resolve(__dirname)}/build`),
       timeout: Duration.seconds(30),
       environment: {
         ENABLE_LOGGING: 'true',
