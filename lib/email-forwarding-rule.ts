@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from 'fs';
 import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
 import { ReceiptRule, ReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
 import { Bucket, BucketEncryption } from '@aws-cdk/aws-s3';
@@ -7,6 +8,7 @@ import { LambdaInvocationType } from '@aws-cdk/aws-ses-actions';
 import { AssetCode, Function, Runtime } from '@aws-cdk/aws-lambda';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { PolicyStatement } from '@aws-cdk/aws-iam';
+import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 
 export interface EmailMapping {
   /**
@@ -145,19 +147,7 @@ export class EmailForwardingRule extends Construct {
       parameterName: `/ses-email-forwarding/${props.id}/mapping`,
       stringValue: JSON.stringify(forwardMapping)
     });
-    const forwarderFunction = new Function(this, 'EmailForwardingFunction', {
-      runtime: Runtime.NODEJS_12_X,
-      handler: 'index.handler',
-      code: AssetCode.fromAsset(`${path.resolve(__dirname)}/../build`),
-      timeout: Duration.seconds(30),
-      environment: {
-        ENABLE_LOGGING: 'true',
-        EMAIL_MAPPING_SSM_KEY: forwardMappingParameter.parameterName,
-        FROM_EMAIL: (props.fromPrefix ?? 'noreply') + '@' + props.domainName,
-        BUCKET_NAME: bucket.bucketName,
-        BUCKET_PREFIX: bucketPrefix
-      }
-    });
+    const forwarderFunction = this.createLambdaForwarderFunction(forwardMappingParameter, props, bucket, bucketPrefix);
     forwarderFunction.addToRolePolicy(
       new PolicyStatement({
         actions: ['ssm:GetParameter'],
@@ -183,6 +173,42 @@ export class EmailForwardingRule extends Construct {
       invocationType: LambdaInvocationType.EVENT,
       function: forwarderFunction
     });
+  }
+
+  private createLambdaForwarderFunction(
+    forwardMappingParameter: StringParameter,
+    props: EmailForwardingRuleProps,
+    bucket: Bucket,
+    bucketPrefix: string
+  ) {
+    // const forwarderFunction = new Function(this, 'EmailForwardingFunction', {
+    //   runtime: Runtime.NODEJS_12_X,
+    //   handler: 'index.handler',
+    //   code: AssetCode.fromAsset(`${path.resolve(__dirname)}/../build`),
+    //   timeout: Duration.seconds(30),
+    //   environment: {
+    //     ENABLE_LOGGING: 'true',
+    //     EMAIL_MAPPING_SSM_KEY: forwardMappingParameter.parameterName,
+    //     FROM_EMAIL: (props.fromPrefix ?? 'noreply') + '@' + props.domainName,
+    //     BUCKET_NAME: bucket.bucketName,
+    //     BUCKET_PREFIX: bucketPrefix
+    //   }
+    // });
+
+    const entryBasePath = `${path.resolve(__dirname)}/../build/index`;
+    const forwarderFunction2 = new NodejsFunction(this, 'EmailForwardingFunction2', {
+      entry: entryBasePath + fs.existsSync(entryBasePath + '.ts') ? '.ts' : '.js',
+      timeout: Duration.seconds(30),
+      environment: {
+        ENABLE_LOGGING: 'true',
+        EMAIL_MAPPING_SSM_KEY: forwardMappingParameter.parameterName,
+        FROM_EMAIL: (props.fromPrefix ?? 'noreply') + '@' + props.domainName,
+        BUCKET_NAME: bucket.bucketName,
+        BUCKET_PREFIX: bucketPrefix
+      }
+    });
+
+    return forwarderFunction2;
   }
 }
 
