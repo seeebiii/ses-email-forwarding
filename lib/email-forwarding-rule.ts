@@ -157,11 +157,7 @@ export class EmailForwardingRule extends Construct {
         FROM_EMAIL: (props.fromPrefix ?? 'noreply') + '@' + props.domainName,
         BUCKET_NAME: bucket.bucketName,
         BUCKET_PREFIX: bucketPrefix
-      } /*,
-      initialPolicy: [new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions:
-      })]*/
+      }
     });
     forwarderFunction.addToRolePolicy(
       new PolicyStatement({
@@ -177,7 +173,7 @@ export class EmailForwardingRule extends Construct {
     );
     forwarderFunction.addToRolePolicy(
       new PolicyStatement({
-        actions: ['s3:GetObject', 's3:GetObjectAcl', 's3:PutObject'],
+        actions: ['s3:GetObject', 's3:GetObjectAcl', 's3:GetObjectTagging', 's3:PutObject', 's3:PutObjectTagging'],
         resources: [bucket.bucketArn, `${bucket.bucketArn}/*`]
       })
     );
