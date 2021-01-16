@@ -1,25 +1,84 @@
 # @seeebiii/ses-email-forwarding
 
-This AWS CDK construct allows you to setup email forwarding mappings to receive emails from your domain and forward them to another email address.
+This [AWS CDK](https://aws.amazon.com/cdk/) construct allows you to setup email forwarding mappings in [AWS SES](https://aws.amazon.com/ses/) to receive emails from your domain and forward them to another email address.
 All of this is possible without hosting your own email server, you just need a domain.
 
-For example, if you own a domain `example.org` and want to receive emails for `hello@example.org` and `privacy@example.org`, you can forward emails to `example@gmail.com`.
+For example, if you own a domain `example.org` and want to receive emails for `hello@example.org` and `privacy@example.org`, you can forward emails to `whatever@provider.com`.
+This is achieved by using a Lambda function that forwards the emails using [aws-lambda-ses-forwarder](https://github.com/arithmetric/aws-lambda-ses-forwarder).
 
 This construct is creating quite a few resources under the hood and can also automatically verify your domain and email addresses in SES.
 Consider reading the [Architecture](#architecture) section below if you want to know more about the details.
 
 ## Examples
 
+Forward all emails received under `hello@example.org` to `whatever+hello@provider.com`:
+
+```javascript
+new EmailForwardingRuleSet(this, 'EmailForwardingRuleSet', {
+  // make the underlying rule set the active one
+  enableRuleSet: true,
+  // define how emails are being forwarded
+  emailForwardingProps: [{
+    // your domain name you want to use for receiving and sending emails
+    domainName: 'example.org',
+    // a prefix that is used for the From email address to forward your mails
+    fromPrefix: 'noreply',
+    // a list of mappings between a prefix and target email address
+    emailMappings: [{
+      // the prefix matching the receiver address as <prefix>@<domainName>
+      receivePrefix: 'hello',
+      // the target email address(es) that you want to forward emails to
+      targetEmails: ['whatever+hello@provider.com']
+    }]
+  }]
+});
+```
+
+Forward all emails to `hello@example.org` to `whatever+hello@provider.com` and verify the domain `example.org` in SES:
+
 ```javascript
 new EmailForwardingRuleSet(this, 'EmailForwardingRuleSet', {
   emailForwardingProps: [{
     domainName: 'example.org',
+    // let the construct automatically verify your domain
+    verifyDomain: true,
     fromPrefix: 'noreply',
     emailMappings: [{
       receivePrefix: 'hello',
-      targetEmails: ['jane+hello-example@gmail.com']
+      targetEmails: ['whatever+hello@provider.com']
     }]
   }]
+});
+```
+
+If you don't want to verify your domain in SES or you are in the SES sandbox, you can still send emails to verified email addresses.
+Use the property `verifyTargetEmailAddresses` in this case and set it to `true`.
+
+For a full & up-to-date reference of the available options, please look at the source code of  [`EmailForwardingRuleSet`](lib/email-forwarding-rule-set.ts) and [`EmailForwardingRule`](lib/email-forwarding-rule.ts).
+
+#### Note
+
+Since the verification of domains requires to lookup the Route53 domains in your account, you need to define your AWS account and region.
+You can do it like this in your CDK stack:
+
+```javascript
+const app = new cdk.App();
+
+class EmailForwardingSetupStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    new EmailForwardingRuleSet(this, 'EmailForwardingRuleSet', {
+      // define your config here
+    });
+  }
+}
+
+new EmailForwardingSetupStack(app, 'EmailForwardingSetupStack', {
+  env: {
+    account: '<account-id>',
+    region: '<region>'
+  }
 });
 ```
 
@@ -38,7 +97,7 @@ At the moment only TypeScript/JavaScript is supported.
 
 Install it as a dev dependency in your project:
 
-```
+```shell script
 npm i -D @seeebiii/ses-email-forwarding
 ```
 
@@ -46,17 +105,31 @@ Take a look at [package.json](./package.json) to make sure you're installing the
 
 ## Usage
 
-TODO
+This package provides two constructs: [`EmailForwardingRuleSet`](lib/email-forwarding-rule-set.ts) and [`EmailForwardingRule`](lib/email-forwarding-rule.ts).
+The `EmailForwardingRuleSet` is a wrapper around `ReceiptRuleSet` but adds a bit more magic to e.g. verify a domain or target email address.
+Similarly, `EmailForwardingRule` is a wrapper around `ReceiptRule` but adds two SES rule actions to forward the email addresses appropriately.
+
+This means if you want the full flexibility, you can use the `EmailForwardingRule` construct in your stack.
 
 ## Architecture
 
-TODO
+The `EmailForwardingRuleSet` creates a `EmailForwardingRule` for each forward mapping.
+Each rule contains an `S3Action` to store the incoming emails and a Lambda Function to forward the emails to the target email addresses.
+The Lambda function is just a thin wrapper around the [aws-lambda-ses-forwarder](https://github.com/arithmetric/aws-lambda-ses-forwarder) library.
+Since this library expects a JSON config with the email mappings, the `EmailForwardingRule` will create an SSM parameter to store the config.
+(Note: this is not ideal because an SSM parameter is limited in the size and hence, this might be changed later)
+The Lambda function receives a reference to this parameter as an environment variable (and a bit more) and forwards everything to the library.
+
+In order to verify a domain or email address, the `EmailForwardingRuleSet` construct is using the package [@seeebiii/ses-verify-identities](https://www.npmjs.com/package/@seeebiii/ses-verify-identities).
+It provides constructs to verify the SES identities.
+For domains, it creates appropriate Route53 records like MX, TXT and Cname (for DKIM).
+For email addresses, it calls the AWS API to initiate email address verification.
 
 ## TODO
 
-- Encrypt email files on S3 bucket by either using S3 bucket encryption (server side) or enable
+- Encrypt email files on S3 bucket by either using S3 bucket encryption (server side) or enable client encryption using SES actions
 - Write tests
-- Extend this README
+- Document options/JSDoc in Readme or separate HTML
 
 ## Contributing
 

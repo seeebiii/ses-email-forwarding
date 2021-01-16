@@ -14,7 +14,9 @@ export interface EmailForwardingProps {
    */
   domainName: string;
   /**
-   * Optional: true if you want to verify the domain identity in SES, false otherwise. Default: `true`.
+   * Optional: true if you want to verify the domain identity in SES, false otherwise.
+   *
+   * @default `false`
    */
   verifyDomain?: boolean;
   /**
@@ -27,26 +29,36 @@ export interface EmailForwardingProps {
    */
   emailMappings: EmailMapping[];
   /**
-   * Optional: true if you want to initiate the verification of your target email addresses, false otherwise. Default: `true`.
+   * Optional: true if you want to initiate the verification of your target email addresses, false otherwise.
    *
    * If `true`, a verification email is sent out to all target email addresses. Then, the owner of an email address needs to verify it by clicking the link in the verification email.
-   * Please note that it's required to verify your email addresses in order to send mails to them.
+   * Please note in case you don't verify your sender domain, it's required to verify your target email addresses in order to send mails to them.
+   *
+   * @default `false`
    */
   verifyTargetEmailAddresses?: boolean;
   /**
    * Optional: an S3 bucket to store the received emails. If none is provided, a new one will be created.
+   *
+   * @default A new bucket.
    */
   bucket?: Bucket;
   /**
-   * Optional: a prefix for the email files that are stored on the S3 bucket. Default: `inbox/`.
+   * Optional: a prefix for the email files that are stored on the S3 bucket.
+   *
+   * @default `inbox/`
    */
   bucketPrefix?: string;
   /**
    * Optional: an SNS topic to receive notifications about sending events like bounces or complaints. The events are defined by `notificationTypes` using {@link NotificationType}. If no topic is defined, a new one will be created.
+   *
+   * @default A new SNS topic.
    */
   notificationTopic?: Topic;
   /**
-   * Optional: a list of {@link NotificationType}s to define which sending events should be subscribed. Default: `['Bounce', 'Complaint']`.
+   * Optional: a list of {@link NotificationType}s to define which sending events should be subscribed.
+   *
+   * @default `['Bounce', 'Complaint']`
    */
   notificationTypes?: NotificationType[];
 }
@@ -57,9 +69,17 @@ export interface EmailForwardingRuleSetProps {
    */
   ruleSet?: ReceiptRuleSet;
   /**
-   * Optional: provide a name for the receipt rule set that this construct creates if you don't provide one. Default: 'custom-rule-set'.
+   * Optional: provide a name for the receipt rule set that this construct creates if you don't provide one.
+   *
+   * @default `custom-rule-set`
    */
   ruleSetName?: string;
+  /**
+   * Optional: whether to enable the rule set or not.
+   *
+   * @default `true`
+   */
+  enableRuleSet?: boolean;
   /**
    * A list of mapping options to define how emails should be forwarded.
    */
@@ -87,7 +107,7 @@ export class EmailForwardingRuleSet extends Construct {
 
     this.ruleSet = this.createRuleSetOrUseExisting(props);
     this.setupEmailForwardingMappings(props, this.ruleSet);
-    this.enableRuleSet(this.ruleSet);
+    this.enableRuleSet(props, this.ruleSet);
   }
 
   private createRuleSetOrUseExisting(props: EmailForwardingRuleSetProps) {
@@ -152,28 +172,30 @@ export class EmailForwardingRuleSet extends Construct {
     }
   }
 
-  private enableRuleSet(ruleSet: ReceiptRuleSet) {
-    const enableRuleSet = new AwsCustomResource(this, 'EnableRuleSet', {
-      logRetention: RetentionDays.ONE_DAY,
-      installLatestAwsSdk: false,
-      onCreate: {
-        service: 'SES',
-        action: 'setActiveReceiptRuleSet',
-        parameters: {
-          RuleSetName: ruleSet.receiptRuleSetName
+  private enableRuleSet(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
+    if (props.enableRuleSet === undefined || props.enableRuleSet) {
+      const enableRuleSet = new AwsCustomResource(this, 'EnableRuleSet', {
+        logRetention: RetentionDays.ONE_DAY,
+        installLatestAwsSdk: false,
+        onCreate: {
+          service: 'SES',
+          action: 'setActiveReceiptRuleSet',
+          parameters: {
+            RuleSetName: ruleSet.receiptRuleSetName
+          },
+          physicalResourceId: PhysicalResourceId.of('enable-rule-set-on-create')
         },
-        physicalResourceId: PhysicalResourceId.of('enable-rule-set-on-create')
-      },
-      onDelete: {
-        service: 'SES',
-        action: 'setActiveReceiptRuleSet',
-        // providing no parameters (especially no RuleSetName) means we're disabling the currently active rule set
-        parameters: {},
-        physicalResourceId: PhysicalResourceId.of('enable-rule-set-on-delete')
-      },
-      policy: generateSesPolicyForCustomResource('SetActiveReceiptRuleSet')
-    });
+        onDelete: {
+          service: 'SES',
+          action: 'setActiveReceiptRuleSet',
+          // providing no parameters (especially no RuleSetName) means we're disabling the currently active rule set
+          parameters: {},
+          physicalResourceId: PhysicalResourceId.of('enable-rule-set-on-delete')
+        },
+        policy: generateSesPolicyForCustomResource('SetActiveReceiptRuleSet')
+      });
 
-    enableRuleSet.node.addDependency(ruleSet);
+      enableRuleSet.node.addDependency(ruleSet);
+    }
   }
 }

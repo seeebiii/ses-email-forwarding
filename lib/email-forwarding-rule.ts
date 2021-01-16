@@ -1,14 +1,12 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
 import { ReceiptRule, ReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
-import { Bucket, BucketEncryption } from '@aws-cdk/aws-s3';
+import { Bucket } from '@aws-cdk/aws-s3';
 import * as actions from '@aws-cdk/aws-ses-actions';
 import { LambdaInvocationType } from '@aws-cdk/aws-ses-actions';
-import { AssetCode, Function, Runtime } from '@aws-cdk/aws-lambda';
+import { Code, Function, Runtime } from '@aws-cdk/aws-lambda';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { PolicyStatement } from '@aws-cdk/aws-iam';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 
 export interface EmailMapping {
   /**
@@ -48,7 +46,7 @@ export interface EmailForwardingRuleProps {
    */
   domainName: string;
   /**
-   * A prefix that is used as the sender address of the forwarded mail, e.g. 'noreply'.
+   * A prefix that is used as the sender address of the forwarded mail, e.g. `noreply`.
    */
   fromPrefix: string;
   /**
@@ -61,7 +59,9 @@ export interface EmailForwardingRuleProps {
    */
   bucket?: Bucket;
   /**
-   * A prefix for the email files that are saved to the bucket. Default: 'inbox'.
+   * A prefix for the email files that are saved to the bucket.
+   *
+   * @default `inbox/`
    */
   bucketPrefix?: string;
 }
@@ -181,23 +181,10 @@ export class EmailForwardingRule extends Construct {
     bucket: Bucket,
     bucketPrefix: string
   ) {
-    // const forwarderFunction = new Function(this, 'EmailForwardingFunction', {
-    //   runtime: Runtime.NODEJS_12_X,
-    //   handler: 'index.handler',
-    //   code: AssetCode.fromAsset(`${path.resolve(__dirname)}/../build`),
-    //   timeout: Duration.seconds(30),
-    //   environment: {
-    //     ENABLE_LOGGING: 'true',
-    //     EMAIL_MAPPING_SSM_KEY: forwardMappingParameter.parameterName,
-    //     FROM_EMAIL: (props.fromPrefix ?? 'noreply') + '@' + props.domainName,
-    //     BUCKET_NAME: bucket.bucketName,
-    //     BUCKET_PREFIX: bucketPrefix
-    //   }
-    // });
-
-    const entryBasePath = `${path.resolve(__dirname)}/../build/index`;
-    const forwarderFunction2 = new NodejsFunction(this, 'EmailForwardingFunction2', {
-      entry: entryBasePath + (fs.existsSync(entryBasePath + '.ts') ? '.ts' : '.js'),
+    return new Function(this, 'EmailForwardingFunction', {
+      runtime: Runtime.NODEJS_12_X,
+      handler: 'index.handler',
+      code: Code.fromAsset(`${path.resolve(__dirname)}/../build`),
       timeout: Duration.seconds(30),
       environment: {
         ENABLE_LOGGING: 'true',
@@ -207,8 +194,6 @@ export class EmailForwardingRule extends Construct {
         BUCKET_PREFIX: bucketPrefix
       }
     });
-
-    return forwarderFunction2;
   }
 }
 
