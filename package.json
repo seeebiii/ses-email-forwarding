@@ -1,6 +1,6 @@
 {
   "name": "@seeebiii/ses-email-forwarding",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AWS CDK construct using AWS SES and AWS Lambda to send and receive emails in Gmail or other email providers.",
   "author": "Sebastian Hesse (https://www.sebastianhesse.de)",
   "keywords": [
