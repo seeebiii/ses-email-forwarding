@@ -56,12 +56,14 @@ export interface EmailForwardingRuleProps {
   emailMapping: EmailMapping[];
   /**
    * A bucket to store the email files to. If no bucket is provided, a new one will be created using a managed KMS key to encrypt the bucket.
+   *
+   * @default A new bucket will be created.
    */
   bucket?: Bucket;
   /**
    * A prefix for the email files that are saved to the bucket.
    *
-   * @default `inbox/`
+   * @default inbox/
    */
   bucketPrefix?: string;
 }

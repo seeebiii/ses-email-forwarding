@@ -61,7 +61,7 @@ For a full & up-to-date reference of the available options, please look at the s
 Since the verification of domains requires to lookup the Route53 domains in your account, you need to define your AWS account and region.
 You can do it like this in your CDK stack:
 
-```javascript
+```typescript
 const app = new cdk.App();
 
 class EmailForwardingSetupStack extends cdk.Stack {
@@ -110,6 +110,15 @@ The `EmailForwardingRuleSet` is a wrapper around `ReceiptRuleSet` but adds a bit
 Similarly, `EmailForwardingRule` is a wrapper around `ReceiptRule` but adds two SES rule actions to forward the email addresses appropriately.
 
 This means if you want the full flexibility, you can use the `EmailForwardingRule` construct in your stack.
+
+### Sending E-Mails over SMTP
+
+You can also send emails over SES using this construct because it provides the basics for sending emails: a verified SES domain or email address identity.
+You need to do the following if you're using the `EmailForwardingRuleSetConstruct`:
+
+1. Set the `verifyDomain` or `verifyTargetEmailAddresses` to `true`.
+2. [Create SMTP credentials in AWS SES](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html?icmpid=docs_ses_console) and save them somewhere.
+3. Setup your email program or application to use the SMTP settings.
 
 ## Architecture
 

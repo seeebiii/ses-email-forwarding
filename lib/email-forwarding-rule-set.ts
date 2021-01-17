@@ -16,7 +16,7 @@ export interface EmailForwardingProps {
   /**
    * Optional: true if you want to verify the domain identity in SES, false otherwise.
    *
-   * @default `false`
+   * @default false
    */
   verifyDomain?: boolean;
   /**
@@ -34,7 +34,7 @@ export interface EmailForwardingProps {
    * If `true`, a verification email is sent out to all target email addresses. Then, the owner of an email address needs to verify it by clicking the link in the verification email.
    * Please note in case you don't verify your sender domain, it's required to verify your target email addresses in order to send mails to them.
    *
-   * @default `false`
+   * @default false
    */
   verifyTargetEmailAddresses?: boolean;
   /**
@@ -46,7 +46,7 @@ export interface EmailForwardingProps {
   /**
    * Optional: a prefix for the email files that are stored on the S3 bucket.
    *
-   * @default `inbox/`
+   * @default inbox/
    */
   bucketPrefix?: string;
   /**
@@ -58,7 +58,7 @@ export interface EmailForwardingProps {
   /**
    * Optional: a list of {@link NotificationType}s to define which sending events should be subscribed.
    *
-   * @default `['Bounce', 'Complaint']`
+   * @default ['Bounce', 'Complaint']
    */
   notificationTypes?: NotificationType[];
 }
@@ -71,13 +71,13 @@ export interface EmailForwardingRuleSetProps {
   /**
    * Optional: provide a name for the receipt rule set that this construct creates if you don't provide one.
    *
-   * @default `custom-rule-set`
+   * @default custom-rule-set
    */
   ruleSetName?: string;
   /**
    * Optional: whether to enable the rule set or not.
    *
-   * @default `true`
+   * @default true
    */
   enableRuleSet?: boolean;
   /**
