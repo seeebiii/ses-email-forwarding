@@ -1,2 +1,2 @@
-// export * from './email-forwarding-rule';
-// export * from './email-forwarding-rule-set';
+export * from './email-forwarding-rule';
+export * from './email-forwarding-rule-set';

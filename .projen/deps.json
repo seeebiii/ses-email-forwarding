@@ -98,6 +98,22 @@
       "type": "build"
     },
     {
+      "name": "@types/aws-lambda",
+      "type": "bundled"
+    },
+    {
+      "name": "aws-lambda",
+      "type": "bundled"
+    },
+    {
+      "name": "aws-lambda-ses-forwarder",
+      "type": "bundled"
+    },
+    {
+      "name": "aws-sdk",
+      "type": "bundled"
+    },
+    {
       "name": "@aws-cdk/aws-iam",
       "version": "1.87.0",
       "type": "peer"
@@ -155,22 +171,6 @@
     {
       "name": "@seeebiii/ses-verify-identities",
       "version": "3.0.4",
-      "type": "peer"
-    },
-    {
-      "name": "@types/aws-lambda",
-      "type": "peer"
-    },
-    {
-      "name": "aws-lambda",
-      "type": "peer"
-    },
-    {
-      "name": "aws-lambda-ses-forwarder",
-      "type": "peer"
-    },
-    {
-      "name": "aws-sdk",
       "type": "peer"
     },
     {
@@ -236,22 +236,6 @@
     {
       "name": "@seeebiii/ses-verify-identities",
       "version": "3.0.4",
-      "type": "runtime"
-    },
-    {
-      "name": "@types/aws-lambda",
-      "type": "runtime"
-    },
-    {
-      "name": "aws-lambda",
-      "type": "runtime"
-    },
-    {
-      "name": "aws-lambda-ses-forwarder",
-      "type": "runtime"
-    },
-    {
-      "name": "aws-sdk",
       "type": "runtime"
     }
   ],

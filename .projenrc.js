@@ -40,8 +40,8 @@ const project = new AwsCdkConstructLibrary({
   // authorUrl: undefined,                                                     /* Author's URL / Website. */
   // autoDetectBin: true,                                                      /* Automatically add all executables under the `bin` directory to your `package.json` file under the `bin` section. */
   // bin: undefined,                                                           /* Binary programs vended with your module. */
-  // bundledDeps: undefined,                                                   /* List of dependencies to bundle into this module. */
-  deps: ['@seeebiii/ses-verify-identities@3.0.4', 'aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@types/aws-lambda'], /* Runtime dependencies of this module. */
+  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@types/aws-lambda'], /* List of dependencies to bundle into this module. */
+  deps: ['@seeebiii/ses-verify-identities@3.0.4'], /* Runtime dependencies of this module. */
   // description: undefined,                                                   /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: ['esbuild'], /* Build dependencies for this module. */
   // entrypoint: 'lib/index.js',                                               /* Module entrypoint (`main` in `package.json`). */
@@ -64,10 +64,10 @@ const project = new AwsCdkConstructLibrary({
   // npmDistTag: 'latest',                                                     /* Tags can be used to provide an alias instead of version numbers. */
   // npmRegistryUrl: 'https://registry.npmjs.org',                             /* The base URL of the npm package registry. */
   // npmTaskExecution: NpmTaskExecution.PROJEN,                                /* Determines how tasks are executed when invoked as npm scripts (yarn/npm run xyz). */
-  packageManager: NodePackageManager.NPM, /* The Node Package Manager used to execute scripts. */
+  // packageManager: NodePackageManager.NPM, /* The Node Package Manager used to execute scripts. */
   packageName: '@seeebiii/ses-email-forwarding', /* The "name" in package.json. */
   // peerDependencyOptions: undefined,                                         /* Options for `peerDeps`. */
-  peerDeps: ['@seeebiii/ses-verify-identities@3.0.4', 'aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@types/aws-lambda'], /* Peer dependencies for this module. */
+  peerDeps: ['@seeebiii/ses-verify-identities@3.0.4'], /* Peer dependencies for this module. */
   // projenCommand: 'npx projen',                                              /* The shell command to use in order to run the projen CLI. */
   repository: 'https://github.com/seeebiii/ses-email-forwarding', /* The repository is the location where the actual code for your package lives. */
   // repositoryDirectory: undefined,                                           /* If the package.json for your package is not in the root directory (for example if it is part of a monorepo), you can specify the directory in which it lives. */
@@ -86,6 +86,17 @@ const project = new AwsCdkConstructLibrary({
   // dependabotOptions: undefined,                                             /* Options for dependabot. */
   gitignore: ['.idea'], /* Additional entries to .gitignore. */
   // jest: true,                                                               /* Setup jest unit tests. */
+  jestOptions: {
+    typescriptConfig: {
+      compilerOptions: {
+        esModuleInterop: true,
+        allowJs: true,
+        outDir: 'lib',
+        noEmit: false,
+        noEmitOnError: false,
+      },
+    },
+  },
   // jsiiReleaseVersion: 'latest',                                             /* Version requirement of `jsii-release` which is used to publish modules to npm. */
   // mergify: true,                                                            /* Adds mergify configuration. */
   // mergifyAutoMergeLabel: 'auto-merge',                                      /* Automatically merge PRs that build successfully and have this label. */

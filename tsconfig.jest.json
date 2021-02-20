@@ -21,7 +21,11 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "ES2018"
+    "target": "ES2018",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "outDir": "lib",
+    "noEmit": false
   },
   "include": [
     ".projenrc.js",
