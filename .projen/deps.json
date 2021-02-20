@@ -154,7 +154,7 @@
     },
     {
       "name": "@seeebiii/ses-verify-identities",
-      "version": "3.0.1",
+      "version": "3.0.4",
       "type": "peer"
     },
     {

@@ -63,7 +63,7 @@
     "@aws-cdk/aws-ssm": "1.87.0",
     "@aws-cdk/core": "1.87.0",
     "@aws-cdk/custom-resources": "1.87.0",
-    "@seeebiii/ses-verify-identities": "3.0.1",
+    "@seeebiii/ses-verify-identities": "3.0.4",
     "constructs": "^3.2.27"
   },
   "dependencies": {
