@@ -149,7 +149,23 @@
   "stability": "stable",
   "jsii": {
     "outdir": "dist",
-    "targets": {},
+    "targets": {
+      "java": {
+        "package": "de.sebastianhesse.cdk.ses.email.forwarding",
+        "maven": {
+          "groupId": "de.sebastianhesse.cdk-constructs",
+          "artifactId": "ses-email-forwarding"
+        }
+      },
+      "python": {
+        "distName": "ses-email-forwarding",
+        "module": "ses_email_forwarding"
+      },
+      "dotnet": {
+        "namespace": "SebastianHesse.CdkConstructs",
+        "packageId": "Ses.Email.Forwarding"
+      }
+    },
     "tsc": {
       "outDir": "lib",
       "rootDir": "src"

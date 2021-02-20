@@ -27,9 +27,19 @@ const project = new AwsCdkConstructLibrary({
   // docgen: true,                                                             /* Automatically generate API.md from jsii. */
   // eslint: true,                                                             /* Install eslint. */
   // publishToGo: undefined,                                                   /* Publish Go bindings to a git repository. */
-  // publishToMaven: undefined,                                                /* Publish to maven. */
-  // publishToNuget: undefined,                                                /* Publish to NuGet. */
-  // publishToPypi: undefined,                                                 /* Publish to pypi. */
+  publishToMaven: {
+    javaPackage: 'de.sebastianhesse.cdk.ses.email.forwarding',
+    mavenGroupId: 'de.sebastianhesse.cdk-constructs',
+    mavenArtifactId: 'ses-email-forwarding',
+  }, /* Publish to maven. */
+  publishToNuget: {
+    dotNetNamespace: 'SebastianHesse.CdkConstructs',
+    packageId: 'Ses.Email.Forwarding',
+  }, /* Publish to NuGet. */
+  publishToPypi: {
+    distName: 'ses-email-forwarding',
+    module: 'ses_email_forwarding',
+  }, /* Publish to pypi. */
   // rootdir: '.',                                                             /* undefined */
 
   /* NodePackageOptions */
