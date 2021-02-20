@@ -158,6 +158,22 @@
       "type": "peer"
     },
     {
+      "name": "@types/aws-lambda",
+      "type": "peer"
+    },
+    {
+      "name": "aws-lambda",
+      "type": "peer"
+    },
+    {
+      "name": "aws-lambda-ses-forwarder",
+      "type": "peer"
+    },
+    {
+      "name": "aws-sdk",
+      "type": "peer"
+    },
+    {
       "name": "constructs",
       "version": "^3.2.27",
       "type": "peer"
