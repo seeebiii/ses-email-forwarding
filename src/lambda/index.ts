@@ -1,5 +1,6 @@
+import { Context, S3Event } from 'aws-lambda';
 import * as AWS from 'aws-sdk';
-import { S3Event, Context } from 'aws-lambda';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const forwarder = require('aws-lambda-ses-forwarder');
 
 const ssm = new AWS.SSM();
@@ -22,7 +23,7 @@ async function loadEmailMappingFromSsm() {
   if (!emailMapping) {
     const ssmValue = await ssm
       .getParameter({
-        Name: ssmKey
+        Name: ssmKey,
       })
       .promise();
 
@@ -32,14 +33,14 @@ async function loadEmailMappingFromSsm() {
   }
 }
 
-exports.handler = async (event: S3Event, context: Context): Promise<void> => {
+
+export const handler = async (event: S3Event, context: Context): Promise<void> => {
   log('Received SES event : ', JSON.stringify(event));
 
   if (!ssmKey || !fromEmail || !bucketName) {
-    console.error(
-      'Missing required environment variables. Either EMAIL_MAPPING_SSM_KEY, FROM_EMAIL or BUCKET_NAME is not set.'
-    );
-    return;
+    const message = 'Missing required environment variables. Either EMAIL_MAPPING_SSM_KEY, FROM_EMAIL or BUCKET_NAME is not set.';
+    console.error(message);
+    return Promise.reject(message);
   }
 
   await loadEmailMappingFromSsm();
@@ -49,7 +50,7 @@ exports.handler = async (event: S3Event, context: Context): Promise<void> => {
       fromEmail: fromEmail,
       emailBucket: bucketName,
       emailKeyPrefix: bucketPrefix,
-      forwardMapping: emailMapping
+      forwardMapping: emailMapping,
     };
 
     log('Forwarding email with config: ', JSON.stringify(config));
@@ -65,7 +66,7 @@ exports.handler = async (event: S3Event, context: Context): Promise<void> => {
             resolve();
           }
         },
-        { config }
+        { config },
       );
     });
   } else {

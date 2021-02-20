@@ -1,8 +1,8 @@
 require('esbuild')
   .build({
-    entryPoints: ['lambda/index.ts'],
+    entryPoints: ['src/lambda/index.ts'],
     bundle: true,
-    outdir: './build',
+    outfile: './src/lambda/build/index.js',
     target: 'node12',
     platform: 'node',
     external: ['aws-sdk'],

@@ -1,33 +1,33 @@
-import { ReceiptRuleSet } from '@aws-cdk/aws-ses';
-import { Bucket } from '@aws-cdk/aws-s3';
-import { CfnOutput, Construct } from '@aws-cdk/core';
-import { EmailForwardingRule, EmailMapping } from './email-forwarding-rule';
-import { AwsCustomResource, PhysicalResourceId } from '@aws-cdk/custom-resources';
 import { RetentionDays } from '@aws-cdk/aws-logs';
+import { Bucket } from '@aws-cdk/aws-s3';
+import { ReceiptRuleSet } from '@aws-cdk/aws-ses';
 import { Topic } from '@aws-cdk/aws-sns';
-import { generateSesPolicyForCustomResource } from './helper';
+import { CfnOutput, Construct } from '@aws-cdk/core';
+import { AwsCustomResource, PhysicalResourceId } from '@aws-cdk/custom-resources';
 import { NotificationType, VerifySesDomain, VerifySesEmailAddress } from '@seeebiii/ses-verify-identities';
+import { EmailForwardingRule, IEmailMapping } from './email-forwarding-rule';
+import { generateSesPolicyForCustomResource } from './helper';
 
-export interface EmailForwardingProps {
+export interface IEmailForwardingProps {
   /**
    * The domain name for which you want to receive emails using SES, e.g. `example.org`.
    */
-  domainName: string;
+  readonly domainName: string;
   /**
    * Optional: true if you want to verify the domain identity in SES, false otherwise.
    *
    * @default false
    */
-  verifyDomain?: boolean;
+  readonly verifyDomain?: boolean;
   /**
    * A prefix that is used as the sender address of the forwarded mail, e.g. `noreply`.
    */
-  fromPrefix: string;
+  readonly fromPrefix: string;
   /**
    * A list of email mappings to define the receive email address and target email addresses to which the emails are forwarded to.
-   * @see EmailMapping
+   * @see IEmailMapping
    */
-  emailMappings: EmailMapping[];
+  readonly emailMappings: IEmailMapping[];
   /**
    * Optional: true if you want to initiate the verification of your target email addresses, false otherwise.
    *
@@ -36,54 +36,54 @@ export interface EmailForwardingProps {
    *
    * @default false
    */
-  verifyTargetEmailAddresses?: boolean;
+  readonly verifyTargetEmailAddresses?: boolean;
   /**
    * Optional: an S3 bucket to store the received emails. If none is provided, a new one will be created.
    *
    * @default A new bucket.
    */
-  bucket?: Bucket;
+  readonly bucket?: Bucket;
   /**
    * Optional: a prefix for the email files that are stored on the S3 bucket.
    *
    * @default inbox/
    */
-  bucketPrefix?: string;
+  readonly bucketPrefix?: string;
   /**
    * Optional: an SNS topic to receive notifications about sending events like bounces or complaints. The events are defined by `notificationTypes` using {@link NotificationType}. If no topic is defined, a new one will be created.
    *
    * @default A new SNS topic.
    */
-  notificationTopic?: Topic;
+  readonly notificationTopic?: Topic;
   /**
    * Optional: a list of {@link NotificationType}s to define which sending events should be subscribed.
    *
    * @default ['Bounce', 'Complaint']
    */
-  notificationTypes?: NotificationType[];
+  readonly notificationTypes?: NotificationType[];
 }
 
-export interface EmailForwardingRuleSetProps {
+export interface IEmailForwardingRuleSetProps {
   /**
    * Optional: an existing SES receipt rule set. If none is provided, a new one will be created using the name provided with `ruleSetName` or a default one.
    */
-  ruleSet?: ReceiptRuleSet;
+  readonly ruleSet?: ReceiptRuleSet;
   /**
    * Optional: provide a name for the receipt rule set that this construct creates if you don't provide one.
    *
    * @default custom-rule-set
    */
-  ruleSetName?: string;
+  readonly ruleSetName?: string;
   /**
    * Optional: whether to enable the rule set or not.
    *
    * @default true
    */
-  enableRuleSet?: boolean;
+  readonly enableRuleSet?: boolean;
   /**
    * A list of mapping options to define how emails should be forwarded.
    */
-  emailForwardingProps: EmailForwardingProps[];
+  readonly emailForwardingProps: IEmailForwardingProps[];
 }
 
 /**
@@ -102,7 +102,7 @@ export interface EmailForwardingRuleSetProps {
 export class EmailForwardingRuleSet extends Construct {
   ruleSet: ReceiptRuleSet;
 
-  constructor(parent: Construct, name: string, props: EmailForwardingRuleSetProps) {
+  constructor(parent: Construct, name: string, props: IEmailForwardingRuleSetProps) {
     super(parent, name);
 
     this.ruleSet = this.createRuleSetOrUseExisting(props);
@@ -110,22 +110,22 @@ export class EmailForwardingRuleSet extends Construct {
     this.enableRuleSet(props, this.ruleSet);
   }
 
-  private createRuleSetOrUseExisting(props: EmailForwardingRuleSetProps) {
+  private createRuleSetOrUseExisting(props: IEmailForwardingRuleSetProps) {
     const ruleSet = props.ruleSet
       ? props.ruleSet
       : new ReceiptRuleSet(this, 'ReceiptRuleSet', {
-          receiptRuleSetName: props.ruleSetName ? props.ruleSetName : 'custom-rule-set'
-        });
+        receiptRuleSetName: props.ruleSetName ? props.ruleSetName : 'custom-rule-set',
+      });
 
     new CfnOutput(this, 'ReceiptRuleSetOutput', {
       value: ruleSet.receiptRuleSetName,
-      description: 'ReceiptRuleSetName'
+      description: 'ReceiptRuleSetName',
     });
 
     return ruleSet;
   }
 
-  private setupEmailForwardingMappings(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
+  private setupEmailForwardingMappings(props: IEmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
     props.emailForwardingProps.forEach((emailForwardingProps, idx) => {
       const domainName = emailForwardingProps.domainName;
       const indexOfDot = domainName.indexOf('.');
@@ -138,7 +138,7 @@ export class EmailForwardingRuleSet extends Construct {
         fromPrefix: emailForwardingProps.fromPrefix,
         emailMapping: emailForwardingProps.emailMappings,
         bucket: emailForwardingProps.bucket,
-        bucketPrefix: emailForwardingProps.bucketPrefix
+        bucketPrefix: emailForwardingProps.bucketPrefix,
       });
 
       this.verifyDomain(emailForwardingProps, domainName);
@@ -146,17 +146,17 @@ export class EmailForwardingRuleSet extends Construct {
     });
   }
 
-  private verifyDomain(emailForwardingProps: EmailForwardingProps, domainName: string) {
+  private verifyDomain(emailForwardingProps: IEmailForwardingProps, domainName: string) {
     if (emailForwardingProps.verifyDomain) {
       new VerifySesDomain(this, 'verify-domain-' + domainName, {
         domainName,
         notificationTopic: emailForwardingProps.notificationTopic,
-        notificationTypes: emailForwardingProps.notificationTypes
+        notificationTypes: emailForwardingProps.notificationTypes,
       });
     }
   }
 
-  private verifyTargetEmailAddresses(emailForwardingProps: EmailForwardingProps, domainName: string) {
+  private verifyTargetEmailAddresses(emailForwardingProps: IEmailForwardingProps, domainName: string) {
     if (emailForwardingProps.verifyTargetEmailAddresses) {
       // make sure we don't create duplicated verifications for the email addresses
       const emailAddresses = new Set<string>();
@@ -166,13 +166,13 @@ export class EmailForwardingRuleSet extends Construct {
 
       emailAddresses.forEach((emailAddress) => {
         new VerifySesEmailAddress(this, 'verify-emails-' + domainName, {
-          emailAddress
+          emailAddress,
         });
       });
     }
   }
 
-  private enableRuleSet(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
+  private enableRuleSet(props: IEmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
     if (props.enableRuleSet === undefined || props.enableRuleSet) {
       const enableRuleSet = new AwsCustomResource(this, 'EnableRuleSet', {
         logRetention: RetentionDays.ONE_DAY,
@@ -181,18 +181,18 @@ export class EmailForwardingRuleSet extends Construct {
           service: 'SES',
           action: 'setActiveReceiptRuleSet',
           parameters: {
-            RuleSetName: ruleSet.receiptRuleSetName
+            RuleSetName: ruleSet.receiptRuleSetName,
           },
-          physicalResourceId: PhysicalResourceId.of('enable-rule-set-on-create')
+          physicalResourceId: PhysicalResourceId.of('enable-rule-set-on-create'),
         },
         onDelete: {
           service: 'SES',
           action: 'setActiveReceiptRuleSet',
           // providing no parameters (especially no RuleSetName) means we're disabling the currently active rule set
           parameters: {},
-          physicalResourceId: PhysicalResourceId.of('enable-rule-set-on-delete')
+          physicalResourceId: PhysicalResourceId.of('disable-rule-set-on-delete'),
         },
-        policy: generateSesPolicyForCustomResource('SetActiveReceiptRuleSet')
+        policy: generateSesPolicyForCustomResource('SetActiveReceiptRuleSet'),
       });
 
       enableRuleSet.node.addDependency(ruleSet);
