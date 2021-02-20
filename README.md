@@ -91,17 +91,38 @@ There are probably more - happy to hear them :)
 
 ## Install
 
-At the moment only TypeScript/JavaScript is supported.
-
 ### npm
 
-Install it as a dev dependency in your project:
-
-```shell script
+```shell
 npm i -D @seeebiii/ses-email-forwarding
 ```
 
 Take a look at [package.json](./package.json) to make sure you're installing the correct version compatible with your current AWS CDK version.
+See more details on npmjs.com: https://www.npmjs.com/package/@seeebiii/ses-email-forwarding
+
+### Maven
+
+```xml
+<dependency>
+  <groupId>de.sebastianhesse.cdk-constructs</groupId>
+  <artifactId>ses-email-forwarding</artifactId>
+  <version>2.0.1</version>
+</dependency>
+```
+
+See more details on mvnrepository.com: https://mvnrepository.com/artifact/de.sebastianhesse.cdk-constructs/ses-email-forwarding/
+
+### Python
+
+```shell
+pip install ses-email-forwarding
+```
+
+See more details on PyPi: https://pypi.org/project/ses-email-forwarding/
+
+### Dotnet / C#
+
+You can find the details here: https://www.nuget.org/packages/Ses.Email.Forwarding/
 
 ## Usage
 
@@ -147,12 +168,11 @@ Just open an issue or pull request :)
 
 These commands should help you while developing:
 
+ * `npx projen`             synthesize changes in [.projenrc.js](.projenrc.js) to the project
  * `npm run build`          compile typescript to js
  * `npm run watch`          watch for changes and compile
  * `npm run test`           perform the jest unit tests
  * `npm run lint`           validate code against best practices
- * `npm run prettier`       format code as configured in config
- * `npm run build:lambda`   builds the code for the Lambda function to forward the emails
 
 ## Thanks
 
