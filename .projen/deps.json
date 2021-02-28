@@ -2,12 +2,12 @@
   "dependencies": [
     {
       "name": "@aws-cdk/assert",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "build"
     },
     {
       "name": "@aws-cdk/assert",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "build"
     },
     {
@@ -115,57 +115,57 @@
     },
     {
       "name": "@aws-cdk/aws-iam",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-lambda-nodejs",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-lambda",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-logs",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-s3",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-ses-actions",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-ses",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-sns",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-ssm",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/custom-resources",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "peer"
     },
     {
@@ -180,62 +180,62 @@
     },
     {
       "name": "@aws-cdk/aws-iam",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-lambda-nodejs",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-lambda",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-logs",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-s3",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-ses-actions",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-ses",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-sns",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-ssm",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/custom-resources",
-      "version": "1.87.0",
+      "version": "1.91.0",
       "type": "runtime"
     },
     {
       "name": "@seeebiii/ses-verify-identities",
-      "version": "3.0.4",
+      "version": "3.0.7",
       "type": "runtime"
     }
   ],
