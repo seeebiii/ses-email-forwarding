@@ -6,6 +6,7 @@ import { ReceiptRule, ReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
 import * as actions from '@aws-cdk/aws-ses-actions';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
+import * as path from 'path';
 
 export interface IEmailMapping {
   /**
@@ -185,7 +186,7 @@ export class EmailForwardingRule extends Construct {
     return new NodejsFunction(this, 'EmailForwardingFunction', {
       runtime: Runtime.NODEJS_12_X,
       handler: 'handler',
-      entry: 'lambda/index.ts',
+      entry: path.join(__dirname, 'lambda/index.ts'),
       bundling: {
         minify: true,
       },
