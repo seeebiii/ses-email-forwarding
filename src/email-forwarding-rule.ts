@@ -1,3 +1,5 @@
+import * as path from 'path';
+import * as fs from 'fs';
 import { PolicyStatement } from '@aws-cdk/aws-iam';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
@@ -6,7 +8,6 @@ import { ReceiptRule, ReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
 import * as actions from '@aws-cdk/aws-ses-actions';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
-import * as path from 'path';
 
 export interface IEmailMapping {
   /**
@@ -183,10 +184,12 @@ export class EmailForwardingRule extends Construct {
     bucket: Bucket,
     bucketPrefix: string,
   ) {
+    const lambdaFile = 'lambda/index';
+    const extension = fs.existsSync(lambdaFile + '.ts' ? '.ts' : '.js');
     return new NodejsFunction(this, 'EmailForwardingFunction', {
       runtime: Runtime.NODEJS_12_X,
       handler: 'handler',
-      entry: path.join(__dirname, 'lambda/index.ts'),
+      entry: path.join(__dirname, `${lambdaFile}${extension}`),
       bundling: {
         minify: true,
       },
