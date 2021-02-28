@@ -185,7 +185,7 @@ export class EmailForwardingRule extends Construct {
     bucketPrefix: string,
   ) {
     const lambdaFile = 'lambda/index';
-    const extension = fs.existsSync(lambdaFile + '.ts' ? '.ts' : '.js');
+    const extension = fs.existsSync(lambdaFile + '.ts') ? '.ts' : '.js';
     return new NodejsFunction(this, 'EmailForwardingFunction', {
       runtime: Runtime.NODEJS_12_X,
       handler: 'handler',
