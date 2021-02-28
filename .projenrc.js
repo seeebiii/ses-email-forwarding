@@ -77,7 +77,7 @@ const project = new AwsCdkConstructLibrary({
   // packageManager: NodePackageManager.NPM, /* The Node Package Manager used to execute scripts. */
   packageName: '@seeebiii/ses-email-forwarding', /* The "name" in package.json. */
   // peerDependencyOptions: undefined,                                         /* Options for `peerDeps`. */
-  peerDeps: ['@seeebiii/ses-verify-identities@3.0.4'], /* Peer dependencies for this module. */
+  peerDeps: ['@seeebiii/ses-verify-identities@3.0.7'], /* Peer dependencies for this module. */
   // projenCommand: 'npx projen',                                              /* The shell command to use in order to run the projen CLI. */
   repository: 'https://github.com/seeebiii/ses-email-forwarding', /* The repository is the location where the actual code for your package lives. */
   // repositoryDirectory: undefined,                                           /* If the package.json for your package is not in the root directory (for example if it is part of a monorepo), you can specify the directory in which it lives. */
