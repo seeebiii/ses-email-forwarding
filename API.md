@@ -8,14 +8,14 @@ Name|Description
 [EmailForwardingRuleSet](#seeebiii-ses-email-forwarding-emailforwardingruleset)|A construct for AWS SES to forward all emails of certain domains and email addresses to a list of target email addresses.
 
 
-**Interfaces**
+**Structs**
 
 Name|Description
 ----|-----------
-[IEmailForwardingProps](#seeebiii-ses-email-forwarding-iemailforwardingprops)|*No description*
-[IEmailForwardingRuleProps](#seeebiii-ses-email-forwarding-iemailforwardingruleprops)|*No description*
-[IEmailForwardingRuleSetProps](#seeebiii-ses-email-forwarding-iemailforwardingrulesetprops)|*No description*
-[IEmailMapping](#seeebiii-ses-email-forwarding-iemailmapping)|*No description*
+[EmailForwardingProps](#seeebiii-ses-email-forwarding-emailforwardingprops)|*No description*
+[EmailForwardingRuleProps](#seeebiii-ses-email-forwarding-emailforwardingruleprops)|*No description*
+[EmailForwardingRuleSetProps](#seeebiii-ses-email-forwarding-emailforwardingrulesetprops)|*No description*
+[EmailMapping](#seeebiii-ses-email-forwarding-emailmapping)|*No description*
 
 
 
@@ -38,12 +38,19 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 
 
 ```ts
-new EmailForwardingRule(parent: Construct, name: string, props: IEmailForwardingRuleProps)
+new EmailForwardingRule(parent: Construct, name: string, props: EmailForwardingRuleProps)
 ```
 
 * **parent** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
-* **props** (<code>[IEmailForwardingRuleProps](#seeebiii-ses-email-forwarding-iemailforwardingruleprops)</code>)  *No description*
+* **props** (<code>[EmailForwardingRuleProps](#seeebiii-ses-email-forwarding-emailforwardingruleprops)</code>)  *No description*
+  * **domainName** (<code>string</code>)  The domain name of the email addresses, e.g. 'example.org'. It is used to connect the `fromPrefix` and `receivePrefix` properties with a proper domain. 
+  * **emailMapping** (<code>Array<[EmailMapping](#seeebiii-ses-email-forwarding-emailmapping)></code>)  An email mapping similar to what the NPM library `aws-lambda-ses-forwarder` expects. 
+  * **fromPrefix** (<code>string</code>)  A prefix that is used as the sender address of the forwarded mail, e.g. `noreply`. 
+  * **id** (<code>string</code>)  An id for the rule. 
+  * **ruleSet** (<code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code>)  The rule set this rule belongs to. 
+  * **bucket** (<code>[Bucket](#aws-cdk-aws-s3-bucket)</code>)  A bucket to store the email files to. __*Default*__: A new bucket will be created.
+  * **bucketPrefix** (<code>string</code>)  A prefix for the email files that are saved to the bucket. __*Default*__: inbox/
 
 
 
@@ -72,12 +79,16 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 
 
 ```ts
-new EmailForwardingRuleSet(parent: Construct, name: string, props: IEmailForwardingRuleSetProps)
+new EmailForwardingRuleSet(parent: Construct, name: string, props: EmailForwardingRuleSetProps)
 ```
 
 * **parent** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
-* **props** (<code>[IEmailForwardingRuleSetProps](#seeebiii-ses-email-forwarding-iemailforwardingrulesetprops)</code>)  *No description*
+* **props** (<code>[EmailForwardingRuleSetProps](#seeebiii-ses-email-forwarding-emailforwardingrulesetprops)</code>)  *No description*
+  * **emailForwardingProps** (<code>Array<[EmailForwardingProps](#seeebiii-ses-email-forwarding-emailforwardingprops)></code>)  A list of mapping options to define how emails should be forwarded. 
+  * **enableRuleSet** (<code>boolean</code>)  Optional: whether to enable the rule set or not. __*Default*__: true
+  * **ruleSet** (<code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code>)  Optional: an existing SES receipt rule set. __*Optional*__
+  * **ruleSetName** (<code>string</code>)  Optional: provide a name for the receipt rule set that this construct creates if you don't provide one. __*Default*__: custom-rule-set
 
 
 
@@ -90,18 +101,17 @@ Name | Type | Description
 
 
 
-## interface IEmailForwardingProps  <a id="seeebiii-ses-email-forwarding-iemailforwardingprops"></a>
+## struct EmailForwardingProps  <a id="seeebiii-ses-email-forwarding-emailforwardingprops"></a>
 
 
 
 
-### Properties
 
 
 Name | Type | Description 
 -----|------|-------------
 **domainName** | <code>string</code> | The domain name for which you want to receive emails using SES, e.g. `example.org`.
-**emailMappings** | <code>Array<[IEmailMapping](#seeebiii-ses-email-forwarding-iemailmapping)></code> | A list of email mappings to define the receive email address and target email addresses to which the emails are forwarded to.
+**emailMappings** | <code>Array<[EmailMapping](#seeebiii-ses-email-forwarding-emailmapping)></code> | A list of email mappings to define the receive email address and target email addresses to which the emails are forwarded to.
 **fromPrefix** | <code>string</code> | A prefix that is used as the sender address of the forwarded mail, e.g. `noreply`.
 **bucket**? | <code>[Bucket](#aws-cdk-aws-s3-bucket)</code> | Optional: an S3 bucket to store the received emails.<br/>__*Default*__: A new bucket.
 **bucketPrefix**? | <code>string</code> | Optional: a prefix for the email files that are stored on the S3 bucket.<br/>__*Default*__: inbox/
@@ -112,18 +122,17 @@ Name | Type | Description
 
 
 
-## interface IEmailForwardingRuleProps  <a id="seeebiii-ses-email-forwarding-iemailforwardingruleprops"></a>
+## struct EmailForwardingRuleProps  <a id="seeebiii-ses-email-forwarding-emailforwardingruleprops"></a>
 
 
 
 
-### Properties
 
 
 Name | Type | Description 
 -----|------|-------------
 **domainName** | <code>string</code> | The domain name of the email addresses, e.g. 'example.org'. It is used to connect the `fromPrefix` and `receivePrefix` properties with a proper domain.
-**emailMapping** | <code>Array<[IEmailMapping](#seeebiii-ses-email-forwarding-iemailmapping)></code> | An email mapping similar to what the NPM library `aws-lambda-ses-forwarder` expects.
+**emailMapping** | <code>Array<[EmailMapping](#seeebiii-ses-email-forwarding-emailmapping)></code> | An email mapping similar to what the NPM library `aws-lambda-ses-forwarder` expects.
 **fromPrefix** | <code>string</code> | A prefix that is used as the sender address of the forwarded mail, e.g. `noreply`.
 **id** | <code>string</code> | An id for the rule.
 **ruleSet** | <code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code> | The rule set this rule belongs to.
@@ -132,36 +141,34 @@ Name | Type | Description
 
 
 
-## interface IEmailForwardingRuleSetProps  <a id="seeebiii-ses-email-forwarding-iemailforwardingrulesetprops"></a>
+## struct EmailForwardingRuleSetProps  <a id="seeebiii-ses-email-forwarding-emailforwardingrulesetprops"></a>
 
 
 
 
-### Properties
 
 
 Name | Type | Description 
 -----|------|-------------
-**emailForwardingProps** | <code>Array<[IEmailForwardingProps](#seeebiii-ses-email-forwarding-iemailforwardingprops)></code> | A list of mapping options to define how emails should be forwarded.
+**emailForwardingProps** | <code>Array<[EmailForwardingProps](#seeebiii-ses-email-forwarding-emailforwardingprops)></code> | A list of mapping options to define how emails should be forwarded.
 **enableRuleSet**? | <code>boolean</code> | Optional: whether to enable the rule set or not.<br/>__*Default*__: true
 **ruleSet**? | <code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code> | Optional: an existing SES receipt rule set.<br/>__*Optional*__
 **ruleSetName**? | <code>string</code> | Optional: provide a name for the receipt rule set that this construct creates if you don't provide one.<br/>__*Default*__: custom-rule-set
 
 
 
-## interface IEmailMapping  <a id="seeebiii-ses-email-forwarding-iemailmapping"></a>
+## struct EmailMapping  <a id="seeebiii-ses-email-forwarding-emailmapping"></a>
 
 
 
 
-### Properties
 
 
 Name | Type | Description 
 -----|------|-------------
 **targetEmails** | <code>Array<string></code> | A list of target email addresses that should receive the forwarded emails for the given email addresses matched by either `receiveEmail` or `receivePrefix`.
-**receiveEmail**? | <code>string</code> | You can define a string that is matching an email address, e.g. `hello@example.org`.<br/>__*Optional*__
-**receivePrefix**? | <code>string</code> | A short way to match a specific email addresses by only providing a prefix, e.g. `hello`. The prefix will be combined with the given domain name from {@link IEmailForwardingRuleProps}. If an email was sent to this specific email address, all emails matching this receiver will be forwarded to all email addresses defined in `targetEmails`.<br/>__*Optional*__
+**receiveEmail**? | <code>string</code> | You can define a string that is matching an email address, e.g. `hello@example.org`.  If this property is defined, the `receivePrefix` will be ignored. You must define either this property or `receivePrefix`, otherwise no emails will be forwarded.<br/>__*Optional*__
+**receivePrefix**? | <code>string</code> | A short way to match a specific email addresses by only providing a prefix, e.g. `hello`. The prefix will be combined with the given domain name from {@link IEmailForwardingRuleProps}. If an email was sent to this specific email address, all emails matching this receiver will be forwarded to all email addresses defined in `targetEmails`.  If `receiveEmail` property is defined as well, then `receiveEmail` is preferred. Hence, only define one of them.<br/>__*Optional*__
 
 
 
