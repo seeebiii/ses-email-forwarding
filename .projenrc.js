@@ -50,10 +50,10 @@ const project = new AwsCdkConstructLibrary({
   // authorUrl: undefined,                                                     /* Author's URL / Website. */
   // autoDetectBin: true,                                                      /* Automatically add all executables under the `bin` directory to your `package.json` file under the `bin` section. */
   // bin: undefined,                                                           /* Binary programs vended with your module. */
-  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@types/aws-lambda', '@seeebiii/ses-verify-identities@3.0.7'], /* List of dependencies to bundle into this module. */
+  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@3.0.7'], /* List of dependencies to bundle into this module. */
   // deps: [], /* Runtime dependencies of this module. */
   // description: undefined,                                                   /* The description is just a string that helps people understand the purpose of the package. */
-  devDeps: ['esbuild'], /* Build dependencies for this module. */
+  devDeps: ['esbuild', '@types/aws-lambda'], /* Build dependencies for this module. */
   // entrypoint: 'lib/index.js',                                               /* Module entrypoint (`main` in `package.json`). */
   homepage: 'https://github.com/seeebiii/ses-email-forwarding', /* Package's Homepage / Website. */
   keywords: ['aws',

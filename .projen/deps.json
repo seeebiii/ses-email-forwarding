@@ -11,6 +11,10 @@
       "type": "build"
     },
     {
+      "name": "@types/aws-lambda",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -97,10 +101,6 @@
     {
       "name": "@seeebiii/ses-verify-identities",
       "version": "3.0.7",
-      "type": "bundled"
-    },
-    {
-      "name": "@types/aws-lambda",
       "type": "bundled"
     },
     {
