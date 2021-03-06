@@ -50,8 +50,8 @@ const project = new AwsCdkConstructLibrary({
   // authorUrl: undefined,                                                     /* Author's URL / Website. */
   // autoDetectBin: true,                                                      /* Automatically add all executables under the `bin` directory to your `package.json` file under the `bin` section. */
   // bin: undefined,                                                           /* Binary programs vended with your module. */
-  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@types/aws-lambda'], /* List of dependencies to bundle into this module. */
-  deps: ['@seeebiii/ses-verify-identities@3.0.7'], /* Runtime dependencies of this module. */
+  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@types/aws-lambda', '@seeebiii/ses-verify-identities@3.0.7'], /* List of dependencies to bundle into this module. */
+  // deps: [], /* Runtime dependencies of this module. */
   // description: undefined,                                                   /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: ['esbuild'], /* Build dependencies for this module. */
   // entrypoint: 'lib/index.js',                                               /* Module entrypoint (`main` in `package.json`). */
@@ -77,7 +77,7 @@ const project = new AwsCdkConstructLibrary({
   // packageManager: NodePackageManager.NPM, /* The Node Package Manager used to execute scripts. */
   packageName: '@seeebiii/ses-email-forwarding', /* The "name" in package.json. */
   // peerDependencyOptions: undefined,                                         /* Options for `peerDeps`. */
-  peerDeps: ['@seeebiii/ses-verify-identities@3.0.7'], /* Peer dependencies for this module. */
+  // peerDeps: [], /* Peer dependencies for this module. */
   // projenCommand: 'npx projen',                                              /* The shell command to use in order to run the projen CLI. */
   repository: 'https://github.com/seeebiii/ses-email-forwarding', /* The repository is the location where the actual code for your package lives. */
   // repositoryDirectory: undefined,                                           /* If the package.json for your package is not in the root directory (for example if it is part of a monorepo), you can specify the directory in which it lives. */
