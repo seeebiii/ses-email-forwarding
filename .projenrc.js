@@ -142,4 +142,6 @@ const project = new AwsCdkConstructLibrary({
   // readme: undefined,                                                        /* The README setup. */
 });
 
+project.compileTask.exec('esbuild src/lambda/index.ts --bundle --platform=node --target=node12 --external:aws-sdk --outfile=lib/lambda/index.js');
+
 project.synth();
