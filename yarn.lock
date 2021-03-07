@@ -1388,10 +1388,10 @@ aws-lambda@^1.0.6:
     js-yaml "^3.13.1"
     watchpack "^2.0.0-beta.10"
 
-aws-sdk@*, aws-sdk@^2.848.0:
-  version "2.848.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.848.0.tgz#5e7706ddd30a55a2d5a5b64c29682a757607ee64"
-  integrity sha512-c/e5kaEFl+9aYkrYDkmu5mSZlL+EfP6DnBOMD06fH12gIsaFSMBGtbsDTHABhvSu++LxeI1dJAD148O17MuZvg==
+aws-sdk@*, aws-sdk@^2.858.0:
+  version "2.858.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.858.0.tgz#3a25fd85170b8298c469c2dacc511adf93a0b8c0"
+  integrity sha512-VXNnGmPcZu4ZRc0yqw4F6d43edrMMKQwOmZX9/hQW/l5DFGqdGzvaDKljZyD1FHNbmaxXz09RfLzjVEmq+CVzA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -5147,10 +5147,10 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.16.9:
-  version "0.16.9"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.16.9.tgz#dab2d5d907e77fa876201663e7a3e777e9a5f7eb"
-  integrity sha512-kY8GoUnHFUmvC0hx46u/3P2a6AMzMgwhz18VsDW5Mq7YZ+zwKkpcX5f6jAE+H3Q98JeYpyXiiwI9jRnYHqy8fQ==
+projen@^0.16.36:
+  version "0.16.36"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.16.36.tgz#22de64b19b2b8794ef7f40afa820291129cb5b85"
+  integrity sha512-8HnnQ//hqnJoYf6ySYiZBh6T64PRBpbGsn119PXZfP2aIPAFHikGoCCGGa631FD44SDKXKlXOWoDPD3RAH4IUQ==
   dependencies:
     "@iarna/toml" "^2.2.5"
     chalk "^4.1.0"
@@ -5844,7 +5844,7 @@ stack-utils@^2.0.2:
   dependencies:
     escape-string-regexp "^2.0.0"
 
-standard-version@^9.0.0:
+standard-version@^9:
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/standard-version/-/standard-version-9.1.1.tgz#7561df6351b075a44544ce3d3ebcffcb9582ba5a"
   integrity sha512-PF9JnRauBwH7DAkmefYu1mB2Kx0MVG13udqDTFmDUiogbyikBAHBdMrVuauxtAb2YIkyZ3FMYCNv0hqUKMOPww==

@@ -1,15 +1,13 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import { PolicyStatement } from '@aws-cdk/aws-iam';
-import { Runtime } from '@aws-cdk/aws-lambda';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
+import { Code, Function, Runtime } from '@aws-cdk/aws-lambda';
 import { Bucket } from '@aws-cdk/aws-s3';
 import { ReceiptRule, ReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
 import * as actions from '@aws-cdk/aws-ses-actions';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
 
-export interface IEmailMapping {
+export interface EmailMapping {
   /**
    * You can define a string that is matching an email address, e.g. `hello@example.org`.
    *
@@ -33,7 +31,7 @@ export interface IEmailMapping {
   readonly targetEmails: string[];
 }
 
-export interface IEmailForwardingRuleProps {
+export interface EmailForwardingRuleProps {
   /**
    * An id for the rule. This will mainly be used to provide a name to the underlying rule but may also be used as a prefix for other resources.
    */
@@ -52,9 +50,9 @@ export interface IEmailForwardingRuleProps {
   readonly fromPrefix: string;
   /**
    * An email mapping similar to what the NPM library `aws-lambda-ses-forwarder` expects.
-   * @see IEmailMapping
+   * @see EmailMapping
    */
-  readonly emailMapping: IEmailMapping[];
+  readonly emailMapping: EmailMapping[];
   /**
    * A bucket to store the email files to. If no bucket is provided, a new one will be created using a managed KMS key to encrypt the bucket.
    *
@@ -79,7 +77,7 @@ export interface IEmailForwardingRuleProps {
  * The Lambda function is using the NPM package `aws-lambda-ses-forwarder` to forward the mails.
  */
 export class EmailForwardingRule extends Construct {
-  constructor(parent: Construct, name: string, props: IEmailForwardingRuleProps) {
+  constructor(parent: Construct, name: string, props: EmailForwardingRuleProps) {
     super(parent, name);
 
     const forwardMapping = this.mapForwardMappingToMap(props);
@@ -101,11 +99,11 @@ export class EmailForwardingRule extends Construct {
     });
   }
 
-  private getBucketPrefixOrDefault(props: IEmailForwardingRuleProps) {
+  private getBucketPrefixOrDefault(props: EmailForwardingRuleProps) {
     return props.bucketPrefix ? ensureSlashSuffix(props.bucketPrefix) : 'inbox/';
   }
 
-  private createBucketOrUseExisting(props: IEmailForwardingRuleProps) {
+  private createBucketOrUseExisting(props: EmailForwardingRuleProps) {
     return props.bucket
       ? props.bucket
       : new Bucket(this, 'EmailBucket', {
@@ -114,7 +112,7 @@ export class EmailForwardingRule extends Construct {
       });
   }
 
-  private createReceiptRule(props: IEmailForwardingRuleProps, forwardMapping: { [p: string]: string[] }) {
+  private createReceiptRule(props: EmailForwardingRuleProps, forwardMapping: { [p: string]: string[] }) {
     return new ReceiptRule(this, 'ReceiptRule', {
       ruleSet: props.ruleSet,
       enabled: true,
@@ -125,7 +123,7 @@ export class EmailForwardingRule extends Construct {
     });
   }
 
-  private mapForwardMappingToMap(props: IEmailForwardingRuleProps) {
+  private mapForwardMappingToMap(props: EmailForwardingRuleProps) {
     const forwardMapping: { [key: string]: string[] } = {};
     props.emailMapping.forEach((val) => {
       let email = val.receiveEmail;
@@ -141,7 +139,7 @@ export class EmailForwardingRule extends Construct {
   }
 
   private createLambdaForwarderAction(
-    props: IEmailForwardingRuleProps,
+    props: EmailForwardingRuleProps,
     forwardMapping: { [key: string]: string[] },
     bucket: Bucket,
     bucketPrefix: string,
@@ -180,19 +178,14 @@ export class EmailForwardingRule extends Construct {
 
   private createLambdaForwarderFunction(
     forwardMappingParameter: StringParameter,
-    props: IEmailForwardingRuleProps,
+    props: EmailForwardingRuleProps,
     bucket: Bucket,
     bucketPrefix: string,
   ) {
-    const lambdaFile = 'lambda/index';
-    const extension = fs.existsSync(lambdaFile + '.ts') ? '.ts' : '.js';
-    return new NodejsFunction(this, 'EmailForwardingFunction', {
+    return new Function(this, 'EmailForwardingFunction', {
       runtime: Runtime.NODEJS_12_X,
-      handler: 'handler',
-      entry: path.join(__dirname, `${lambdaFile}${extension}`),
-      bundling: {
-        minify: true,
-      },
+      handler: 'index.handler',
+      code: Code.fromAsset(path.join(__dirname, 'lambda')),
       timeout: Duration.seconds(30),
       environment: {
         ENABLE_LOGGING: 'true',

@@ -5,10 +5,10 @@ import { Topic } from '@aws-cdk/aws-sns';
 import { CfnOutput, Construct } from '@aws-cdk/core';
 import { AwsCustomResource, PhysicalResourceId } from '@aws-cdk/custom-resources';
 import { NotificationType, VerifySesDomain, VerifySesEmailAddress } from '@seeebiii/ses-verify-identities';
-import { EmailForwardingRule, IEmailMapping } from './email-forwarding-rule';
+import { EmailForwardingRule, EmailMapping } from './email-forwarding-rule';
 import { generateSesPolicyForCustomResource } from './helper';
 
-export interface IEmailForwardingProps {
+export interface EmailForwardingProps {
   /**
    * The domain name for which you want to receive emails using SES, e.g. `example.org`.
    */
@@ -25,9 +25,9 @@ export interface IEmailForwardingProps {
   readonly fromPrefix: string;
   /**
    * A list of email mappings to define the receive email address and target email addresses to which the emails are forwarded to.
-   * @see IEmailMapping
+   * @see EmailMapping
    */
-  readonly emailMappings: IEmailMapping[];
+  readonly emailMappings: EmailMapping[];
   /**
    * Optional: true if you want to initiate the verification of your target email addresses, false otherwise.
    *
@@ -63,7 +63,7 @@ export interface IEmailForwardingProps {
   readonly notificationTypes?: NotificationType[];
 }
 
-export interface IEmailForwardingRuleSetProps {
+export interface EmailForwardingRuleSetProps {
   /**
    * Optional: an existing SES receipt rule set. If none is provided, a new one will be created using the name provided with `ruleSetName` or a default one.
    */
@@ -83,7 +83,7 @@ export interface IEmailForwardingRuleSetProps {
   /**
    * A list of mapping options to define how emails should be forwarded.
    */
-  readonly emailForwardingProps: IEmailForwardingProps[];
+  readonly emailForwardingProps: EmailForwardingProps[];
 }
 
 /**
@@ -102,7 +102,7 @@ export interface IEmailForwardingRuleSetProps {
 export class EmailForwardingRuleSet extends Construct {
   ruleSet: ReceiptRuleSet;
 
-  constructor(parent: Construct, name: string, props: IEmailForwardingRuleSetProps) {
+  constructor(parent: Construct, name: string, props: EmailForwardingRuleSetProps) {
     super(parent, name);
 
     this.ruleSet = this.createRuleSetOrUseExisting(props);
@@ -110,7 +110,7 @@ export class EmailForwardingRuleSet extends Construct {
     this.enableRuleSet(props, this.ruleSet);
   }
 
-  private createRuleSetOrUseExisting(props: IEmailForwardingRuleSetProps) {
+  private createRuleSetOrUseExisting(props: EmailForwardingRuleSetProps) {
     const ruleSet = props.ruleSet
       ? props.ruleSet
       : new ReceiptRuleSet(this, 'ReceiptRuleSet', {
@@ -125,7 +125,7 @@ export class EmailForwardingRuleSet extends Construct {
     return ruleSet;
   }
 
-  private setupEmailForwardingMappings(props: IEmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
+  private setupEmailForwardingMappings(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
     props.emailForwardingProps.forEach((emailForwardingProps, idx) => {
       const domainName = emailForwardingProps.domainName;
       const indexOfDot = domainName.indexOf('.');
@@ -146,7 +146,7 @@ export class EmailForwardingRuleSet extends Construct {
     });
   }
 
-  private verifyDomain(emailForwardingProps: IEmailForwardingProps, domainName: string) {
+  private verifyDomain(emailForwardingProps: EmailForwardingProps, domainName: string) {
     if (emailForwardingProps.verifyDomain) {
       new VerifySesDomain(this, 'verify-domain-' + domainName, {
         domainName,
@@ -156,7 +156,7 @@ export class EmailForwardingRuleSet extends Construct {
     }
   }
 
-  private verifyTargetEmailAddresses(emailForwardingProps: IEmailForwardingProps, domainName: string) {
+  private verifyTargetEmailAddresses(emailForwardingProps: EmailForwardingProps, domainName: string) {
     if (emailForwardingProps.verifyTargetEmailAddresses) {
       // make sure we don't create duplicated verifications for the email addresses
       const emailAddresses = new Set<string>();
@@ -172,7 +172,7 @@ export class EmailForwardingRuleSet extends Construct {
     }
   }
 
-  private enableRuleSet(props: IEmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
+  private enableRuleSet(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
     if (props.enableRuleSet === undefined || props.enableRuleSet) {
       const enableRuleSet = new AwsCustomResource(this, 'EnableRuleSet', {
         logRetention: RetentionDays.ONE_DAY,
