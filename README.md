@@ -120,9 +120,113 @@ pip install ses-email-forwarding
 
 See more details on PyPi: https://pypi.org/project/ses-email-forwarding/
 
-### Dotnet / C#
+### .NET / C#
 
-You can find the details here: https://www.nuget.org/packages/Ses.Email.Forwarding/
+An artifact is pushed up to NuGet.org: https://www.nuget.org/packages/Ses.Email.Forwarding/
+
+#### Project Scaffolding & Installation
+
+```bash
+# Create a new directory
+mkdir ExampleApplication && cd ExampleApplication
+
+# Scaffold a C# CDK project
+cdk init --language csharp
+
+# Add dependencies
+cd src/ExampleApplication
+dotnet add package Ses.Email.Forwarding
+dotnet add package Amazon.CDK.AWS.SNS.Subscriptions
+
+# Remove example stack and global suppressions (silenced by way of using discards)
+rm ExampleApplicationStack.cs GlobalSuppressions.cs
+```
+
+#### Example Usage
+
+```csharp
+using Amazon.CDK;
+using Amazon.CDK.AWS.SNS;
+using Amazon.CDK.AWS.SNS.Subscriptions;
+using SebastianHesse.CdkConstructs;
+using Construct = Constructs.Construct;
+
+namespace ExampleApplication
+{
+    public sealed class Program
+    {
+        public static void Main()
+        {
+            var app = new App();
+            
+            _ = new MailboxStack(app, nameof(MailboxStack), new StackProps
+            {
+                Env = new Environment
+                {
+                    // Replace with desired account
+                    Account = "000000000000",
+
+                    // Replace with desired region
+                    Region = "us-east-1"
+                }
+            });
+
+            app.Synth();
+        }
+    }
+    
+    public sealed class MailboxStack : Stack
+    {
+        public MailboxStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
+        {
+            var notificationTopic = new Topic(this, nameof(EmailForwardingProps.NotificationTopic));
+            
+            // 'Bounce' and 'Complaint' notification types, in association with the domain being verified, will be sent
+            // to this email address
+            notificationTopic.AddSubscription(new EmailSubscription("admin@provider.com"));
+            
+            _ = new EmailForwardingRuleSet(this, nameof(EmailForwardingRuleSet), new EmailForwardingRuleSetProps
+            {
+                EmailForwardingProps = new IEmailForwardingProps[]
+                {
+                    new EmailForwardingProps
+                    {
+                        // If your domain name has already been verified as a domain identity in SES, this does not
+                        // need to be toggled on
+                        VerifyDomain = true,
+                        
+                        // This is the prefix that will be used in the email address used to forward emails
+                        FromPrefix = "noreply",
+                        
+                        // This domain name will be used to send and receive emails
+                        DomainName = "example.org",
+                        
+                        // A list of mappings between a prefix and target email addresses
+                        EmailMappings = new IEmailMapping[]
+                        {
+                            new EmailMapping
+                            {
+                                // Emails received by hello@example.org will be forwarded
+                                ReceivePrefix = "hello",
+                                
+                                // Emails will be forwarded to admin+hello@provider.com
+                                TargetEmails = new []
+                                {
+                                    "admin+hello@provider.com"
+                                }
+                            }
+                        },
+                        
+                        // This notification topic be published to when events in association with 'Bounce' and
+                        // 'Complaint' notification types occur
+                        NotificationTopic = notificationTopic
+                    }
+                }
+            });
+        }
+    }
+}
+```
 
 ## Usage
 
