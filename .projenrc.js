@@ -13,7 +13,7 @@ const project = new AwsCdkConstructLibrary({
   cdkAssert: true, /* Install the @aws-cdk/assert library? */
   cdkDependencies: ['@aws-cdk/core', '@aws-cdk/aws-iam', '@aws-cdk/aws-lambda', '@aws-cdk/aws-lambda-nodejs', '@aws-cdk/aws-logs', '@aws-cdk/aws-s3', '@aws-cdk/aws-ses', '@aws-cdk/aws-ses-actions', '@aws-cdk/aws-sns', '@aws-cdk/aws-ssm', '@aws-cdk/custom-resources'], /* Which AWS CDK modules (those that start with "@aws-cdk/") does this library require when consumed? */
   cdkTestDependencies: ['@aws-cdk/assert'], /* AWS CDK modules required for testing. */
-  cdkVersionPinning: true, /* Use pinned version instead of caret version for CDK. */
+  cdkVersionPinning: false, /* Use pinned version instead of caret version for CDK. */
 
   /* ConstructLibraryOptions */
   catalog: {
