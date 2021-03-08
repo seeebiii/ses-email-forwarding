@@ -112,6 +112,72 @@ See more details on npmjs.com: https://www.npmjs.com/package/@seeebiii/ses-email
 
 See more details on mvnrepository.com: https://mvnrepository.com/artifact/de.sebastianhesse.cdk-constructs/ses-email-forwarding/
 
+#### Example Code
+
+```java
+package com.example;
+
+import de.sebastianhesse.cdk.ses.email.forwarding.EmailForwardingProps;
+import de.sebastianhesse.cdk.ses.email.forwarding.EmailForwardingRuleSet;
+import de.sebastianhesse.cdk.ses.email.forwarding.EmailMapping;
+import java.util.Arrays;
+import software.amazon.awscdk.core.App;
+
+import software.amazon.awscdk.core.Construct;
+import software.amazon.awscdk.core.Environment;
+import software.amazon.awscdk.core.Stack;
+import software.amazon.awscdk.core.StackProps;
+
+public class SesEmailForwardingJavaTestApp {
+    public static void main(final String[] args) {
+        App app = new App();
+
+        new SesEmailForwardingJavaTestStack(app, "CdkEmailForwardingJavaTestStack", StackProps.builder()
+                .env(Environment.builder()
+                        .account("123456789") // TODO: replace with your account id
+                        .region("us-east-1") // TODO: replace with your region
+                        .build()
+                )
+                .build());
+
+        app.synth();
+    }
+
+    static class SesEmailForwardingJavaTestStack extends Stack {
+        public SesEmailForwardingJavaTestStack(final Construct scope, final String id) {
+            this(scope, id, null);
+        }
+
+        public SesEmailForwardingJavaTestStack(final Construct scope, final String id, final StackProps props) {
+            super(scope, id, props);
+
+            EmailForwardingProps exampleProperties = EmailForwardingProps.builder()
+                    .domainName("example.org")
+                    .verifyDomain(true)
+                    .fromPrefix("noreply")
+                    .emailMappings(Arrays.asList(
+                            EmailMapping.builder()
+                                    .receiveEmail("hello@example.org")
+                                    .targetEmails(Arrays.asList("email+hello@provider.com"))
+                                    .build(),
+                            EmailMapping.builder()
+                                    .receiveEmail("privacy@example.org")
+                                    .targetEmails(Arrays.asList("email+privacy@provider.com"))
+                                    .build()
+                            )
+                    )
+                    .build();
+
+            EmailForwardingRuleSet.Builder.create(this, "example-rule-set")
+                    .ruleSetName("example-rule-set")
+                    .enableRuleSet(false)
+                    .emailForwardingProps(Arrays.asList(exampleProperties))
+                    .build();
+        }
+    }
+}
+```
+
 ### Python
 
 ```shell
