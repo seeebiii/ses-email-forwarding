@@ -187,6 +187,7 @@ export class EmailForwardingRule extends Construct {
       handler: 'index.handler',
       code: Code.fromAsset(path.join(__dirname, 'lambda')),
       timeout: Duration.seconds(30),
+      memorySize: 512,
       environment: {
         ENABLE_LOGGING: 'true',
         EMAIL_MAPPING_SSM_KEY: forwardMappingParameter.parameterName,
