@@ -106,7 +106,7 @@ See more details on npmjs.com: https://www.npmjs.com/package/@seeebiii/ses-email
 <dependency>
   <groupId>de.sebastianhesse.cdk-constructs</groupId>
   <artifactId>ses-email-forwarding</artifactId>
-  <version>2.0.1</version>
+  <version>3.0.4</version>
 </dependency>
 ```
 
