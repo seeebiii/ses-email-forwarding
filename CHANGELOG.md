@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6](https://github.com/seeebiii/ses-email-forwarding/compare/v3.0.5...v3.0.6) (2021-03-08)
+
+
+### Bug Fixes
+
+* remove version pinning and allow caret versioning ([0a4ebf7](https://github.com/seeebiii/ses-email-forwarding/commit/0a4ebf78712eeb17ed38b1fa79d3ae3c0eae0c64))
+* revert version pinning change ([045894d](https://github.com/seeebiii/ses-email-forwarding/commit/045894d92205d3c6d7eb0068b7332bf6648ee5b1))
+
 ### [3.0.5](https://github.com/seeebiii/ses-email-forwarding/compare/v3.0.4...v3.0.5) (2021-03-08)
 
 ### [3.0.4](https://github.com/seeebiii/ses-email-forwarding/compare/v3.0.3...v3.0.4) (2021-03-08)
