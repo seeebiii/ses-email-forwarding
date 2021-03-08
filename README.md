@@ -153,6 +153,7 @@ public class SesEmailForwardingJavaTestApp {
 
             EmailForwardingProps exampleProperties = EmailForwardingProps.builder()
                     .domainName("example.org")
+                    // true if you own the domain in Route53, false if you need to manually verify it
                     .verifyDomain(true)
                     .fromPrefix("noreply")
                     .emailMappings(Arrays.asList(
@@ -170,7 +171,6 @@ public class SesEmailForwardingJavaTestApp {
 
             EmailForwardingRuleSet.Builder.create(this, "example-rule-set")
                     .ruleSetName("example-rule-set")
-                    .enableRuleSet(false)
                     .emailForwardingProps(Arrays.asList(exampleProperties))
                     .build();
         }
