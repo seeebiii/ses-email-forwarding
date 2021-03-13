@@ -3,7 +3,7 @@ const { AwsCdkConstructLibrary, ProjectType } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Sebastian Hesse',
   authorAddress: 'info@sebastianhesse.de',
-  cdkVersion: '1.91.0',
+  cdkVersion: '1.93.0',
   defaultReleaseBranch: 'main',
   jsiiFqn: 'projen.AwsCdkConstructLibrary',
   name: 'ses-email-forwarding',
@@ -13,7 +13,7 @@ const project = new AwsCdkConstructLibrary({
   cdkAssert: true, /* Install the @aws-cdk/assert library? */
   cdkDependencies: ['@aws-cdk/core', '@aws-cdk/aws-iam', '@aws-cdk/aws-lambda', '@aws-cdk/aws-lambda-nodejs', '@aws-cdk/aws-logs', '@aws-cdk/aws-s3', '@aws-cdk/aws-ses', '@aws-cdk/aws-ses-actions', '@aws-cdk/aws-sns', '@aws-cdk/aws-ssm', '@aws-cdk/custom-resources'], /* Which AWS CDK modules (those that start with "@aws-cdk/") does this library require when consumed? */
   cdkTestDependencies: ['@aws-cdk/assert'], /* AWS CDK modules required for testing. */
-  cdkVersionPinning: true, /* Use pinned version instead of caret version for CDK. */
+  cdkVersionPinning: false, /* Use pinned version instead of caret version for CDK. */
 
   /* ConstructLibraryOptions */
   catalog: {
@@ -50,7 +50,7 @@ const project = new AwsCdkConstructLibrary({
   // authorUrl: undefined,                                                     /* Author's URL / Website. */
   // autoDetectBin: true,                                                      /* Automatically add all executables under the `bin` directory to your `package.json` file under the `bin` section. */
   // bin: undefined,                                                           /* Binary programs vended with your module. */
-  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@3.0.7'], /* List of dependencies to bundle into this module. */
+  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@3.1.0'], /* List of dependencies to bundle into this module. */
   // deps: [], /* Runtime dependencies of this module. */
   // description: undefined,                                                   /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: ['esbuild', '@types/aws-lambda'], /* Build dependencies for this module. */

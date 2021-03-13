@@ -328,8 +328,6 @@ For email addresses, it calls the AWS API to initiate email address verification
 ## TODO
 
 - Encrypt email files on S3 bucket by either using S3 bucket encryption (server side) or enable client encryption using SES actions
-- Write tests
-- Document options/JSDoc in Readme or separate HTML
 
 ## Contributing
 
