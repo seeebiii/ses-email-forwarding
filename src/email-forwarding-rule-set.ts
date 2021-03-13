@@ -86,12 +86,6 @@ export interface EmailForwardingRuleSetProps {
   readonly emailForwardingProps: EmailForwardingProps[];
 }
 
-interface InternalEmailForwardingMapping {
-  readonly emailForwardingRule: EmailForwardingRule;
-  readonly verifySesDomain: VerifySesDomain | null;
-  readonly verifySesEmailAddresses: VerifySesEmailAddress[] | null;
-}
-
 /**
  * A construct for AWS SES to forward all emails of certain domains and email addresses to a list of target email addresses.
  * It also verifies (or at least initiates verification of) the related domains and email addresses in SES.
@@ -106,8 +100,8 @@ interface InternalEmailForwardingMapping {
  * - initiate verification for all target email addresses that are provided for receiving the forwarded emails.
  */
 export class EmailForwardingRuleSet extends Construct {
-  ruleSet: ReceiptRuleSet;
-  emailForwardingMappings: InternalEmailForwardingMapping[] = [];
+  readonly ruleSet: ReceiptRuleSet;
+  readonly emailForwardingMappings: any[] = [];
 
   constructor(parent: Construct, name: string, props: EmailForwardingRuleSetProps) {
     super(parent, name);
@@ -155,7 +149,7 @@ export class EmailForwardingRuleSet extends Construct {
     });
   }
 
-  private verifyDomain(emailForwardingProps: EmailForwardingProps, domainName: string): VerifySesDomain | null {
+  private verifyDomain(emailForwardingProps: EmailForwardingProps, domainName: string): VerifySesDomain | undefined {
     if (emailForwardingProps.verifyDomain) {
       return new VerifySesDomain(this, 'verify-domain-' + domainName, {
         domainName,
@@ -163,10 +157,10 @@ export class EmailForwardingRuleSet extends Construct {
         notificationTypes: emailForwardingProps.notificationTypes,
       });
     }
-    return null;
+    return undefined;
   }
 
-  private verifyTargetEmailAddresses(emailForwardingProps: EmailForwardingProps, domainName: string): VerifySesEmailAddress[] | null {
+  private verifyTargetEmailAddresses(emailForwardingProps: EmailForwardingProps, domainName: string): VerifySesEmailAddress[] | undefined {
     if (emailForwardingProps.verifyTargetEmailAddresses) {
       // make sure we don't create duplicated verifications for the email addresses
       const emailAddresses = new Set<string>();
@@ -183,7 +177,7 @@ export class EmailForwardingRuleSet extends Construct {
       });
       return emailVerificationList;
     }
-    return null;
+    return undefined;
   }
 
   private enableRuleSet(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {

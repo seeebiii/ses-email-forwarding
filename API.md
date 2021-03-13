@@ -51,6 +51,7 @@ new EmailForwardingRule(parent: Construct, name: string, props: EmailForwardingR
   * **ruleSet** (<code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code>)  The rule set this rule belongs to. 
   * **bucket** (<code>[Bucket](#aws-cdk-aws-s3-bucket)</code>)  A bucket to store the email files to. __*Default*__: A new bucket will be created.
   * **bucketPrefix** (<code>string</code>)  A prefix for the email files that are saved to the bucket. __*Default*__: inbox/
+  * **enableLambdaLogging** (<code>boolean</code>)  Enable log messages in Lambda function which forwards emails. __*Default*__: true
 
 
 
@@ -97,6 +98,7 @@ new EmailForwardingRuleSet(parent: Construct, name: string, props: EmailForwardi
 
 Name | Type | Description 
 -----|------|-------------
+**emailForwardingMappings** | <code>Array<any></code> | <span></span>
 **ruleSet** | <code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code> | <span></span>
 
 
@@ -138,6 +140,7 @@ Name | Type | Description
 **ruleSet** | <code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code> | The rule set this rule belongs to.
 **bucket**? | <code>[Bucket](#aws-cdk-aws-s3-bucket)</code> | A bucket to store the email files to.<br/>__*Default*__: A new bucket will be created.
 **bucketPrefix**? | <code>string</code> | A prefix for the email files that are saved to the bucket.<br/>__*Default*__: inbox/
+**enableLambdaLogging**? | <code>boolean</code> | Enable log messages in Lambda function which forwards emails.<br/>__*Default*__: true
 
 
 
@@ -168,7 +171,7 @@ Name | Type | Description
 -----|------|-------------
 **targetEmails** | <code>Array<string></code> | A list of target email addresses that should receive the forwarded emails for the given email addresses matched by either `receiveEmail` or `receivePrefix`.
 **receiveEmail**? | <code>string</code> | You can define a string that is matching an email address, e.g. `hello@example.org`.<br/>__*Optional*__
-**receivePrefix**? | <code>string</code> | A short way to match a specific email addresses by only providing a prefix, e.g. `hello`. The prefix will be combined with the given domain name from {@link IEmailForwardingRuleProps}. If an email was sent to this specific email address, all emails matching this receiver will be forwarded to all email addresses defined in `targetEmails`.<br/>__*Optional*__
+**receivePrefix**? | <code>string</code> | A short way to match a specific email addresses by only providing a prefix, e.g. `hello`. The prefix will be combined with the given domain name from {@link EmailForwardingRuleProps}. If an email was sent to this specific email address, all emails matching this receiver will be forwarded to all email addresses defined in `targetEmails`.<br/>__*Optional*__
 
 
 
