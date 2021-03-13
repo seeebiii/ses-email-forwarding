@@ -86,6 +86,12 @@ export interface EmailForwardingRuleSetProps {
   readonly emailForwardingProps: EmailForwardingProps[];
 }
 
+interface InternalEmailForwardingMapping {
+  readonly emailForwardingRule: EmailForwardingRule;
+  readonly verifySesDomain: VerifySesDomain | null;
+  readonly verifySesEmailAddresses: VerifySesEmailAddress[] | null;
+}
+
 /**
  * A construct for AWS SES to forward all emails of certain domains and email addresses to a list of target email addresses.
  * It also verifies (or at least initiates verification of) the related domains and email addresses in SES.
@@ -101,6 +107,7 @@ export interface EmailForwardingRuleSetProps {
  */
 export class EmailForwardingRuleSet extends Construct {
   ruleSet: ReceiptRuleSet;
+  emailForwardingMappings: InternalEmailForwardingMapping[] = [];
 
   constructor(parent: Construct, name: string, props: EmailForwardingRuleSetProps) {
     super(parent, name);
@@ -131,32 +138,35 @@ export class EmailForwardingRuleSet extends Construct {
       const indexOfDot = domainName.indexOf('.');
       const siteName = domainName.substring(0, indexOfDot);
 
-      new EmailForwardingRule(this, 'EmailForwardingRule-' + idx, {
-        id: siteName + '-rule',
-        ruleSet: ruleSet,
-        domainName: domainName,
-        fromPrefix: emailForwardingProps.fromPrefix,
-        emailMapping: emailForwardingProps.emailMappings,
-        bucket: emailForwardingProps.bucket,
-        bucketPrefix: emailForwardingProps.bucketPrefix,
+      const id = 'EmailForwardingRule-' + idx;
+      this.emailForwardingMappings.push({
+        emailForwardingRule: new EmailForwardingRule(this, id, {
+          id: siteName + '-rule',
+          ruleSet: ruleSet,
+          domainName: domainName,
+          fromPrefix: emailForwardingProps.fromPrefix,
+          emailMapping: emailForwardingProps.emailMappings,
+          bucket: emailForwardingProps.bucket,
+          bucketPrefix: emailForwardingProps.bucketPrefix,
+        }),
+        verifySesDomain: this.verifyDomain(emailForwardingProps, domainName),
+        verifySesEmailAddresses: this.verifyTargetEmailAddresses(emailForwardingProps, domainName),
       });
-
-      this.verifyDomain(emailForwardingProps, domainName);
-      this.verifyTargetEmailAddresses(emailForwardingProps, domainName);
     });
   }
 
-  private verifyDomain(emailForwardingProps: EmailForwardingProps, domainName: string) {
+  private verifyDomain(emailForwardingProps: EmailForwardingProps, domainName: string): VerifySesDomain | null {
     if (emailForwardingProps.verifyDomain) {
-      new VerifySesDomain(this, 'verify-domain-' + domainName, {
+      return new VerifySesDomain(this, 'verify-domain-' + domainName, {
         domainName,
         notificationTopic: emailForwardingProps.notificationTopic,
         notificationTypes: emailForwardingProps.notificationTypes,
       });
     }
+    return null;
   }
 
-  private verifyTargetEmailAddresses(emailForwardingProps: EmailForwardingProps, domainName: string) {
+  private verifyTargetEmailAddresses(emailForwardingProps: EmailForwardingProps, domainName: string): VerifySesEmailAddress[] | null {
     if (emailForwardingProps.verifyTargetEmailAddresses) {
       // make sure we don't create duplicated verifications for the email addresses
       const emailAddresses = new Set<string>();
@@ -164,12 +174,16 @@ export class EmailForwardingRuleSet extends Construct {
         mapping.targetEmails.forEach((email) => emailAddresses.add(email));
       });
 
+      let counter = 0;
+      const emailVerificationList: VerifySesEmailAddress[] = [];
       emailAddresses.forEach((emailAddress) => {
-        new VerifySesEmailAddress(this, 'verify-emails-' + domainName, {
+        emailVerificationList.push(new VerifySesEmailAddress(this, 'verify-emails-' + domainName + counter++, {
           emailAddress,
-        });
+        }));
       });
+      return emailVerificationList;
     }
+    return null;
   }
 
   private enableRuleSet(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
