@@ -16,7 +16,7 @@ export interface EmailMapping {
   readonly receiveEmail?: string;
   /**
    * A short way to match a specific email addresses by only providing a prefix, e.g. `hello`.
-   * The prefix will be combined with the given domain name from {@link IEmailForwardingRuleProps}.
+   * The prefix will be combined with the given domain name from {@link EmailForwardingRuleProps}.
    * If an email was sent to this specific email address, all emails matching this receiver will be forwarded to all email addresses defined in `targetEmails`.
    *
    * If `receiveEmail` property is defined as well, then `receiveEmail` is preferred. Hence, only define one of them.
@@ -65,6 +65,12 @@ export interface EmailForwardingRuleProps {
    * @default inbox/
    */
   readonly bucketPrefix?: string;
+  /**
+   * Enable log messages in Lambda function which forwards emails.
+   *
+   * @default true
+   */
+  readonly enableLambdaLogging?: boolean;
 }
 
 /**
@@ -80,16 +86,19 @@ export class EmailForwardingRule extends Construct {
   constructor(parent: Construct, name: string, props: EmailForwardingRuleProps) {
     super(parent, name);
 
-    const forwardMapping = this.mapForwardMappingToMap(props);
-    const receiptRule = this.createReceiptRule(props, forwardMapping);
+    const forwardMapping = this.convertForwardMappingToMap(props);
 
-    const bucketPrefix = this.getBucketPrefixOrDefault(props);
-    const bucket = this.createBucketOrUseExisting(props);
-    const s3Action = this.createS3Action(bucket, bucketPrefix);
-    receiptRule.addAction(s3Action);
+    if (Object.keys(forwardMapping).length > 0) {
+      const receiptRule = this.createReceiptRule(props, forwardMapping);
 
-    const lambdaAction = this.createLambdaForwarderAction(props, forwardMapping, bucket, bucketPrefix);
-    receiptRule.addAction(lambdaAction);
+      const bucketPrefix = this.getBucketPrefixOrDefault(props);
+      const bucket = this.createBucketOrUseExisting(props);
+      const s3Action = this.createS3Action(bucket, bucketPrefix);
+      receiptRule.addAction(s3Action);
+
+      const lambdaAction = this.createLambdaForwarderAction(props, forwardMapping, bucket, bucketPrefix);
+      receiptRule.addAction(lambdaAction);
+    }
   }
 
   private createS3Action(bucket: Bucket, bucketPrefix: string) {
@@ -123,7 +132,7 @@ export class EmailForwardingRule extends Construct {
     });
   }
 
-  private mapForwardMappingToMap(props: EmailForwardingRuleProps) {
+  private convertForwardMappingToMap(props: EmailForwardingRuleProps) {
     const forwardMapping: { [key: string]: string[] } = {};
     props.emailMapping.forEach((val) => {
       let email = val.receiveEmail;
@@ -189,7 +198,7 @@ export class EmailForwardingRule extends Construct {
       timeout: Duration.seconds(30),
       memorySize: 512,
       environment: {
-        ENABLE_LOGGING: 'true',
+        ENABLE_LOGGING: `${props.enableLambdaLogging === undefined ? 'true' : props.enableLambdaLogging}`,
         EMAIL_MAPPING_SSM_KEY: forwardMappingParameter.parameterName,
         FROM_EMAIL: (props.fromPrefix ?? 'noreply') + '@' + props.domainName,
         BUCKET_NAME: bucket.bucketName,
