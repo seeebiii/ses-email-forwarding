@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/seeebiii/ses-email-forwarding/compare/v3.0.6...v3.1.0) (2021-03-13)
+
+
+### Features
+
+* provide new property to enable/disable logging in Lambda function ([e38e306](https://github.com/seeebiii/ses-email-forwarding/commit/e38e30676d5e59988311da42afaee7ea79f9fac1))
+
+
+### Bug Fixes
+
+* compile errors and wrong registry in yarn.lock ([1361894](https://github.com/seeebiii/ses-email-forwarding/commit/1361894b4135eecf97f26904ecdb8cb0138f5c76))
+
 ### [3.0.6](https://github.com/seeebiii/ses-email-forwarding/compare/v3.0.5...v3.0.6) (2021-03-08)
 
 
