@@ -3,7 +3,7 @@ const { AwsCdkConstructLibrary, ProjectType } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Sebastian Hesse',
   authorAddress: 'info@sebastianhesse.de',
-  cdkVersion: '1.94.1',
+  cdkVersion: '1.93.0',
   defaultReleaseBranch: 'main',
   jsiiFqn: 'projen.AwsCdkConstructLibrary',
   name: 'ses-email-forwarding',
