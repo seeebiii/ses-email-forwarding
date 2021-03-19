@@ -170,8 +170,8 @@ Name | Type | Description
 Name | Type | Description 
 -----|------|-------------
 **targetEmails** | <code>Array<string></code> | A list of target email addresses that should receive the forwarded emails for the given email addresses matched by either `receiveEmail` or `receivePrefix`.
-**receiveEmail**? | <code>string</code> | You can define a string that is matching an email address, e.g. `hello@example.org`.  If this property is defined, the `receivePrefix` will be ignored. You must define either this property or `receivePrefix`, otherwise no emails will be forwarded.<br/>__*Optional*__
-**receivePrefix**? | <code>string</code> | A short way to match a specific email addresses by only providing a prefix, e.g. `hello`. The prefix will be combined with the given domain name from {@link EmailForwardingRuleProps}. If an email was sent to this specific email address, all emails matching this receiver will be forwarded to all email addresses defined in `targetEmails`.  If `receiveEmail` property is defined as well, then `receiveEmail` is preferred. Hence, only define one of them.<br/>__*Optional*__
+**receiveEmail**? | <code>string</code> | You can define a string that is matching an email address, e.g. `hello@example.org`.<br/>__*Optional*__
+**receivePrefix**? | <code>string</code> | A short way to match a specific email addresses by only providing a prefix, e.g. `hello`. The prefix will be combined with the given domain name from {@link EmailForwardingRuleProps}. If an email was sent to this specific email address, all emails matching this receiver will be forwarded to all email addresses defined in `targetEmails`.<br/>__*Optional*__
 
 
 
