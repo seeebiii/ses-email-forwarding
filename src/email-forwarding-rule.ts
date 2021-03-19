@@ -2,7 +2,7 @@ import * as path from 'path';
 import { PolicyStatement } from '@aws-cdk/aws-iam';
 import { Code, Function, Runtime } from '@aws-cdk/aws-lambda';
 import { Bucket } from '@aws-cdk/aws-s3';
-import { ReceiptRule, ReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
+import { ReceiptRule, IReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
 import * as actions from '@aws-cdk/aws-ses-actions';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
@@ -39,7 +39,7 @@ export interface EmailForwardingRuleProps {
   /**
    * The rule set this rule belongs to.
    */
-  readonly ruleSet: ReceiptRuleSet;
+  readonly ruleSet: IReceiptRuleSet;
   /**
    * The domain name of the email addresses, e.g. 'example.org'. It is used to connect the `fromPrefix` and `receivePrefix` properties with a proper domain.
    */
