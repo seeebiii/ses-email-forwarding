@@ -1,6 +1,6 @@
 import { RetentionDays } from '@aws-cdk/aws-logs';
 import { Bucket } from '@aws-cdk/aws-s3';
-import { ReceiptRuleSet } from '@aws-cdk/aws-ses';
+import { IReceiptRuleSet, ReceiptRuleSet } from '@aws-cdk/aws-ses';
 import { Topic } from '@aws-cdk/aws-sns';
 import { CfnOutput, Construct } from '@aws-cdk/core';
 import { AwsCustomResource, PhysicalResourceId } from '@aws-cdk/custom-resources';
@@ -67,7 +67,7 @@ export interface EmailForwardingRuleSetProps {
   /**
    * Optional: an existing SES receipt rule set. If none is provided, a new one will be created using the name provided with `ruleSetName` or a default one.
    */
-  readonly ruleSet?: ReceiptRuleSet;
+  readonly ruleSet?: IReceiptRuleSet;
   /**
    * Optional: provide a name for the receipt rule set that this construct creates if you don't provide one.
    *
@@ -100,7 +100,7 @@ export interface EmailForwardingRuleSetProps {
  * - initiate verification for all target email addresses that are provided for receiving the forwarded emails.
  */
 export class EmailForwardingRuleSet extends Construct {
-  readonly ruleSet: ReceiptRuleSet;
+  readonly ruleSet: IReceiptRuleSet;
   readonly emailForwardingMappings: any[] = [];
 
   constructor(parent: Construct, name: string, props: EmailForwardingRuleSetProps) {
@@ -126,7 +126,7 @@ export class EmailForwardingRuleSet extends Construct {
     return ruleSet;
   }
 
-  private setupEmailForwardingMappings(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
+  private setupEmailForwardingMappings(props: EmailForwardingRuleSetProps, ruleSet: IReceiptRuleSet) {
     props.emailForwardingProps.forEach((emailForwardingProps, idx) => {
       const domainName = emailForwardingProps.domainName;
       const indexOfDot = domainName.indexOf('.');
@@ -180,7 +180,7 @@ export class EmailForwardingRuleSet extends Construct {
     return undefined;
   }
 
-  private enableRuleSet(props: EmailForwardingRuleSetProps, ruleSet: ReceiptRuleSet) {
+  private enableRuleSet(props: EmailForwardingRuleSetProps, ruleSet: IReceiptRuleSet) {
     if (props.enableRuleSet === undefined || props.enableRuleSet) {
       const enableRuleSet = new AwsCustomResource(this, 'EnableRuleSet', {
         logRetention: RetentionDays.ONE_DAY,

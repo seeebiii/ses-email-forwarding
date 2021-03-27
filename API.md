@@ -48,7 +48,7 @@ new EmailForwardingRule(parent: Construct, name: string, props: EmailForwardingR
   * **emailMapping** (<code>Array<[EmailMapping](#seeebiii-ses-email-forwarding-emailmapping)></code>)  An email mapping similar to what the NPM library `aws-lambda-ses-forwarder` expects. 
   * **fromPrefix** (<code>string</code>)  A prefix that is used as the sender address of the forwarded mail, e.g. `noreply`. 
   * **id** (<code>string</code>)  An id for the rule. 
-  * **ruleSet** (<code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code>)  The rule set this rule belongs to. 
+  * **ruleSet** (<code>[IReceiptRuleSet](#aws-cdk-aws-ses-ireceiptruleset)</code>)  The rule set this rule belongs to. 
   * **bucket** (<code>[Bucket](#aws-cdk-aws-s3-bucket)</code>)  A bucket to store the email files to. __*Default*__: A new bucket will be created.
   * **bucketPrefix** (<code>string</code>)  A prefix for the email files that are saved to the bucket. __*Default*__: inbox/
   * **enableLambdaLogging** (<code>boolean</code>)  Enable log messages in Lambda function which forwards emails. __*Default*__: true
@@ -88,7 +88,7 @@ new EmailForwardingRuleSet(parent: Construct, name: string, props: EmailForwardi
 * **props** (<code>[EmailForwardingRuleSetProps](#seeebiii-ses-email-forwarding-emailforwardingrulesetprops)</code>)  *No description*
   * **emailForwardingProps** (<code>Array<[EmailForwardingProps](#seeebiii-ses-email-forwarding-emailforwardingprops)></code>)  A list of mapping options to define how emails should be forwarded. 
   * **enableRuleSet** (<code>boolean</code>)  Optional: whether to enable the rule set or not. __*Default*__: true
-  * **ruleSet** (<code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code>)  Optional: an existing SES receipt rule set. __*Optional*__
+  * **ruleSet** (<code>[IReceiptRuleSet](#aws-cdk-aws-ses-ireceiptruleset)</code>)  Optional: an existing SES receipt rule set. __*Optional*__
   * **ruleSetName** (<code>string</code>)  Optional: provide a name for the receipt rule set that this construct creates if you don't provide one. __*Default*__: custom-rule-set
 
 
@@ -99,7 +99,7 @@ new EmailForwardingRuleSet(parent: Construct, name: string, props: EmailForwardi
 Name | Type | Description 
 -----|------|-------------
 **emailForwardingMappings** | <code>Array<any></code> | <span></span>
-**ruleSet** | <code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code> | <span></span>
+**ruleSet** | <code>[IReceiptRuleSet](#aws-cdk-aws-ses-ireceiptruleset)</code> | <span></span>
 
 
 
@@ -137,7 +137,7 @@ Name | Type | Description
 **emailMapping** | <code>Array<[EmailMapping](#seeebiii-ses-email-forwarding-emailmapping)></code> | An email mapping similar to what the NPM library `aws-lambda-ses-forwarder` expects.
 **fromPrefix** | <code>string</code> | A prefix that is used as the sender address of the forwarded mail, e.g. `noreply`.
 **id** | <code>string</code> | An id for the rule.
-**ruleSet** | <code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code> | The rule set this rule belongs to.
+**ruleSet** | <code>[IReceiptRuleSet](#aws-cdk-aws-ses-ireceiptruleset)</code> | The rule set this rule belongs to.
 **bucket**? | <code>[Bucket](#aws-cdk-aws-s3-bucket)</code> | A bucket to store the email files to.<br/>__*Default*__: A new bucket will be created.
 **bucketPrefix**? | <code>string</code> | A prefix for the email files that are saved to the bucket.<br/>__*Default*__: inbox/
 **enableLambdaLogging**? | <code>boolean</code> | Enable log messages in Lambda function which forwards emails.<br/>__*Default*__: true
@@ -155,7 +155,7 @@ Name | Type | Description
 -----|------|-------------
 **emailForwardingProps** | <code>Array<[EmailForwardingProps](#seeebiii-ses-email-forwarding-emailforwardingprops)></code> | A list of mapping options to define how emails should be forwarded.
 **enableRuleSet**? | <code>boolean</code> | Optional: whether to enable the rule set or not.<br/>__*Default*__: true
-**ruleSet**? | <code>[ReceiptRuleSet](#aws-cdk-aws-ses-receiptruleset)</code> | Optional: an existing SES receipt rule set.<br/>__*Optional*__
+**ruleSet**? | <code>[IReceiptRuleSet](#aws-cdk-aws-ses-ireceiptruleset)</code> | Optional: an existing SES receipt rule set.<br/>__*Optional*__
 **ruleSetName**? | <code>string</code> | Optional: provide a name for the receipt rule set that this construct creates if you don't provide one.<br/>__*Default*__: custom-rule-set
 
 
