@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.2](https://github.com/seeebiii/ses-email-forwarding/compare/v3.1.1...v3.1.2) (2021-04-03)
+
+
+### Bug Fixes
+
+* npm registry url ([c07e81d](https://github.com/seeebiii/ses-email-forwarding/commit/c07e81da4366c45f3123065a34525f0446267b45))
+
 ### [3.1.1](https://github.com/seeebiii/ses-email-forwarding/compare/v3.1.0...v3.1.1) (2021-03-27)
 
 
