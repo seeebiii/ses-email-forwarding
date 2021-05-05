@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.8](https://github.com/seeebiii/ses-email-forwarding/compare/v3.1.7...v3.1.8) (2021-05-05)
+
 ### [3.1.7](https://github.com/seeebiii/ses-email-forwarding/compare/v3.1.6...v3.1.7) (2021-04-14)
 
 ### [3.1.6](https://github.com/seeebiii/ses-email-forwarding/compare/v3.1.5...v3.1.6) (2021-04-13)
