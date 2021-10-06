@@ -6,7 +6,7 @@ const {
 const project = new AwsCdkConstructLibrary({
   author: 'Sebastian Hesse',
   authorAddress: 'info@sebastianhesse.de',
-  cdkVersion: '1.96.0',
+  cdkVersion: '1.124.0',
   defaultReleaseBranch: 'main',
   jsiiFqn: 'projen.AwsCdkConstructLibrary',
   name: 'ses-email-forwarding',
@@ -17,7 +17,7 @@ const project = new AwsCdkConstructLibrary({
   cdkDependencies: ['@aws-cdk/core', '@aws-cdk/aws-iam', '@aws-cdk/aws-lambda', '@aws-cdk/aws-lambda-nodejs', '@aws-cdk/aws-logs', '@aws-cdk/aws-s3',
     '@aws-cdk/aws-ses', '@aws-cdk/aws-ses-actions', '@aws-cdk/aws-sns', '@aws-cdk/aws-ssm', '@aws-cdk/custom-resources'],
   cdkTestDependencies: ['@aws-cdk/assert'],
-  cdkVersionPinning: false,
+  cdkVersionPinning: true,
 
   /* ConstructLibraryOptions */
   catalog: {
