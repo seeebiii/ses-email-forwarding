@@ -54,12 +54,12 @@
   },
   "peerDependencies": {
     "@aws-cdk/aws-iam": "1.124.0",
-    "@aws-cdk/aws-lambda": "1.124.0",
     "@aws-cdk/aws-lambda-nodejs": "1.124.0",
+    "@aws-cdk/aws-lambda": "1.124.0",
     "@aws-cdk/aws-logs": "1.124.0",
     "@aws-cdk/aws-s3": "1.124.0",
-    "@aws-cdk/aws-ses": "1.124.0",
     "@aws-cdk/aws-ses-actions": "1.124.0",
+    "@aws-cdk/aws-ses": "1.124.0",
     "@aws-cdk/aws-sns": "1.124.0",
     "@aws-cdk/aws-ssm": "1.124.0",
     "@aws-cdk/core": "1.124.0",
@@ -67,21 +67,21 @@
     "constructs": "^3.2.27"
   },
   "dependencies": {
-    "@aws-cdk/aws-iam": "1.124.0",
-    "@aws-cdk/aws-lambda": "1.124.0",
-    "@aws-cdk/aws-lambda-nodejs": "1.124.0",
-    "@aws-cdk/aws-logs": "1.124.0",
-    "@aws-cdk/aws-s3": "1.124.0",
-    "@aws-cdk/aws-ses": "1.124.0",
-    "@aws-cdk/aws-ses-actions": "1.124.0",
-    "@aws-cdk/aws-sns": "1.124.0",
-    "@aws-cdk/aws-ssm": "1.124.0",
-    "@aws-cdk/core": "1.124.0",
-    "@aws-cdk/custom-resources": "1.124.0",
     "@seeebiii/ses-verify-identities": "3.1.2",
     "aws-lambda": "^1.0.6",
     "aws-lambda-ses-forwarder": "^5.0.0",
-    "aws-sdk": "^2.858.0"
+    "aws-sdk": "^2.858.0",
+    "@aws-cdk/aws-iam": "1.124.0",
+    "@aws-cdk/aws-lambda-nodejs": "1.124.0",
+    "@aws-cdk/aws-lambda": "1.124.0",
+    "@aws-cdk/aws-logs": "1.124.0",
+    "@aws-cdk/aws-s3": "1.124.0",
+    "@aws-cdk/aws-ses-actions": "1.124.0",
+    "@aws-cdk/aws-ses": "1.124.0",
+    "@aws-cdk/aws-sns": "1.124.0",
+    "@aws-cdk/aws-ssm": "1.124.0",
+    "@aws-cdk/core": "1.124.0",
+    "@aws-cdk/custom-resources": "1.124.0"
   },
   "bundledDependencies": [
     "@seeebiii/ses-verify-identities",
@@ -103,7 +103,7 @@
   ],
   "main": "lib/index.js",
   "license": "MIT",
-  "version": "3.1.12",
+  "version": "3.1.13",
   "homepage": "https://github.com/seeebiii/ses-email-forwarding",
   "jest": {
     "testMatch": [
