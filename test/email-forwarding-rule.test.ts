@@ -1,13 +1,13 @@
+import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { ReceiptRuleSet } from 'aws-cdk-lib/aws-ses';
-import * as cdk from 'aws-cdk-lib/core';
 import { EmailForwardingRule } from '../src';
 
 describe('email forwarding rule', () => {
   it('ensure rule is not created if mapping is empty', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleId = 'example.org-id';
     const receiptRuleSet = new ReceiptRuleSet(stack, 'example', {});
@@ -24,8 +24,8 @@ describe('email forwarding rule', () => {
   });
 
   it('ensure rule is created and contains actions', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleId = 'example.org-id';
     const receiptRuleSet = new ReceiptRuleSet(stack, 'example', {});
@@ -58,8 +58,8 @@ describe('email forwarding rule', () => {
   });
 
   it('S3 action is using custom bucket and prefix', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleId = 'example.org-id';
     const receiptRuleSet = new ReceiptRuleSet(stack, 'example', {});
@@ -100,8 +100,8 @@ describe('email forwarding rule', () => {
   });
 
   it('custom prefix is suffixed with slash', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleId = 'example.org-id';
     const receiptRuleSet = new ReceiptRuleSet(stack, 'example', {});
@@ -142,8 +142,8 @@ describe('email forwarding rule', () => {
   });
 
   it('Lambda action contains appropriate environment variables', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleId = 'example.org-id';
     const receiptRuleSet = new ReceiptRuleSet(stack, 'example', {});

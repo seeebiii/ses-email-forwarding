@@ -1,6 +1,6 @@
 import { VerifySesDomain } from '@seeebiii/ses-verify-identities';
+import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import * as cdk from 'aws-cdk-lib/core';
 import { EmailForwardingRuleSet } from '../src';
 
 VerifySesDomain.prototype.getHostedZone = jest.fn().mockReturnValue({
@@ -10,8 +10,8 @@ VerifySesDomain.prototype.getHostedZone = jest.fn().mockReturnValue({
 
 describe('email forwarding rule set', () => {
   it('ensure rule set is created and contains given name', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleSetName = 'example-rule-set';
     const name = 'ExampleRuleSet';
@@ -37,8 +37,8 @@ describe('email forwarding rule set', () => {
   });
 
   it('ensure rule set is enabled by default', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleSetName = 'example-rule-set';
     new EmailForwardingRuleSet(stack, 'ExampleRuleSet', {
@@ -67,8 +67,8 @@ describe('email forwarding rule set', () => {
   });
 
   it('ensure rule set is not enabled if property is set to false', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleSetName = 'example-rule-set';
     new EmailForwardingRuleSet(stack, 'ExampleRuleSet', {
@@ -82,8 +82,8 @@ describe('email forwarding rule set', () => {
   });
 
   it('ensure domain and email addresses are not verified by default', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleSet = new EmailForwardingRuleSet(stack, 'ExampleRuleSet', {
       emailForwardingProps: [{
@@ -100,8 +100,8 @@ describe('email forwarding rule set', () => {
   });
 
   it('ensure domain is verified', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleSet = new EmailForwardingRuleSet(stack, 'ExampleRuleSet', {
       enableRuleSet: false,
@@ -125,8 +125,8 @@ describe('email forwarding rule set', () => {
   });
 
   it('ensure email address is verified', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleSet = new EmailForwardingRuleSet(stack, 'ExampleRuleSet', {
       enableRuleSet: false,
@@ -151,8 +151,8 @@ describe('email forwarding rule set', () => {
   });
 
   it('ensure multiple email addresses are verified', () => {
-    const app = new cdk.App();
-    const stack = new cdk.Stack(app, 'TestStack');
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
     const ruleSet = new EmailForwardingRuleSet(stack, 'ExampleRuleSet', {
       enableRuleSet: false,

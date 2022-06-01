@@ -1,9 +1,9 @@
 import { NotificationType, VerifySesDomain, VerifySesEmailAddress } from '@seeebiii/ses-verify-identities';
+import { CfnOutput } from 'aws-cdk-lib';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { IReceiptRuleSet, ReceiptRuleSet } from 'aws-cdk-lib/aws-ses';
 import { Topic } from 'aws-cdk-lib/aws-sns';
-import { CfnOutput } from 'aws-cdk-lib/core';
 import { AwsCustomResource, PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 import { EmailForwardingRule, EmailMapping } from './email-forwarding-rule';
