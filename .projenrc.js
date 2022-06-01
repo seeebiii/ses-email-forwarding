@@ -1,23 +1,17 @@
 const {
-  AwsCdkConstructLibrary,
+  awscdk,
   ProjectType,
 } = require('projen');
 
-const project = new AwsCdkConstructLibrary({
+const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Sebastian Hesse',
   authorAddress: 'info@sebastianhesse.de',
-  cdkVersion: '1.96.0',
+  cdkVersion: '2.26.0',
+  cdkVersionPinning: false,
   defaultReleaseBranch: 'main',
   jsiiFqn: 'projen.AwsCdkConstructLibrary',
   name: 'ses-email-forwarding',
   repositoryUrl: 'git@github.com:seeebiii/ses-email-forwarding.git',
-
-  /* AwsCdkConstructLibraryOptions */
-  cdkAssert: true,
-  cdkDependencies: ['@aws-cdk/core', '@aws-cdk/aws-iam', '@aws-cdk/aws-lambda', '@aws-cdk/aws-lambda-nodejs', '@aws-cdk/aws-logs', '@aws-cdk/aws-s3',
-    '@aws-cdk/aws-ses', '@aws-cdk/aws-ses-actions', '@aws-cdk/aws-sns', '@aws-cdk/aws-ssm', '@aws-cdk/custom-resources'],
-  cdkTestDependencies: ['@aws-cdk/assert'],
-  cdkVersionPinning: false,
 
   /* ConstructLibraryOptions */
   catalog: {
@@ -41,8 +35,8 @@ const project = new AwsCdkConstructLibrary({
   },
 
   /* NodePackageOptions */
-  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@3.1.2'],
   devDeps: ['esbuild', '@types/aws-lambda'],
+  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@4.0.1'],
   homepage: 'https://github.com/seeebiii/ses-email-forwarding',
   keywords: ['aws',
     'aws-cdk',
@@ -63,15 +57,13 @@ const project = new AwsCdkConstructLibrary({
   antitamper: false,
   copyrightOwner: 'Sebastian Hesse',
   gitignore: ['.idea'],
-  jestOptions: {
-    typescriptConfig: {
-      compilerOptions: {
-        esModuleInterop: true,
-        allowJs: true,
-        outDir: 'lib',
-        noEmit: false,
-        noEmitOnError: false,
-      },
+  tsconfigDev: {
+    compilerOptions: {
+      esModuleInterop: true,
+      allowJs: true,
+      outDir: 'lib',
+      noEmit: false,
+      noEmitOnError: false,
     },
   },
   npmignore: ['.github'],

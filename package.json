@@ -5,23 +5,32 @@
     "url": "https://github.com/seeebiii/ses-email-forwarding"
   },
   "scripts": {
-    "clobber": "npx projen clobber",
-    "compile": "npx projen compile",
-    "test:compile": "npx projen test:compile",
-    "test": "npx projen test",
     "build": "npx projen build",
     "bump": "npx projen bump",
-    "release": "npx projen release",
-    "test:watch": "npx projen test:watch",
-    "test:update": "npx projen test:update",
-    "projen:upgrade": "npx projen projen:upgrade",
-    "watch": "npx projen watch",
-    "package": "npx projen package",
-    "eslint": "npx projen eslint",
+    "clobber": "npx projen clobber",
     "compat": "npx projen compat",
+    "compile": "npx projen compile",
+    "default": "npx projen default",
     "docgen": "npx projen docgen",
-    "projen": "npx projen",
-    "start": "npx projen start"
+    "eject": "npx projen eject",
+    "eslint": "npx projen eslint",
+    "package": "npx projen package",
+    "package-all": "npx projen package-all",
+    "package:dotnet": "npx projen package:dotnet",
+    "package:java": "npx projen package:java",
+    "package:js": "npx projen package:js",
+    "package:python": "npx projen package:python",
+    "post-compile": "npx projen post-compile",
+    "post-upgrade": "npx projen post-upgrade",
+    "pre-compile": "npx projen pre-compile",
+    "release": "npx projen release",
+    "test": "npx projen test",
+    "test:update": "npx projen test:update",
+    "test:watch": "npx projen test:watch",
+    "unbump": "npx projen unbump",
+    "upgrade": "npx projen upgrade",
+    "watch": "npx projen watch",
+    "projen": "npx projen"
   },
   "author": {
     "name": "Sebastian Hesse",
@@ -29,59 +38,40 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-cdk/assert": "^1.96.0",
-    "@types/aws-lambda": "^8.10.72",
-    "@types/jest": "^26.0.20",
-    "@types/node": "^10.17.0",
-    "@typescript-eslint/eslint-plugin": "^4.3.0",
-    "@typescript-eslint/parser": "^4.3.0",
-    "esbuild": "^0.8.49",
-    "eslint": "^7.20.0",
-    "eslint-import-resolver-node": "^0.3.4",
-    "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "^2.22.1",
-    "jest": "^26.6.3",
-    "jest-junit": "^12",
-    "jsii": "^1.21.0",
-    "jsii-diff": "^1.21.0",
-    "jsii-docgen": "^1.8.47",
-    "jsii-pacmak": "^1.21.0",
-    "json-schema": "^0.3.0",
-    "projen": "^0.17.20",
+    "@types/aws-lambda": "^8.10.97",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^14",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "aws-cdk-lib": "2.26.0",
+    "constructs": "10.0.5",
+    "esbuild": "^0.14.42",
+    "eslint": "^8",
+    "eslint-import-resolver-node": "^0.3.6",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^27",
+    "jest-junit": "^13",
+    "jsii": "^1.59.0",
+    "jsii-diff": "^1.59.0",
+    "jsii-docgen": "^1.8.110",
+    "jsii-pacmak": "^1.59.0",
+    "json-schema": "^0.4.0",
+    "npm-check-updates": "^12",
+    "projen": "^0.56.39",
     "standard-version": "^9",
-    "ts-jest": "^26.5.1",
-    "typescript": "^3.9.5"
+    "ts-jest": "^27",
+    "typescript": "^3.9.10"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-iam": "^1.96.0",
-    "@aws-cdk/aws-lambda": "^1.96.0",
-    "@aws-cdk/aws-lambda-nodejs": "^1.96.0",
-    "@aws-cdk/aws-logs": "^1.96.0",
-    "@aws-cdk/aws-s3": "^1.96.0",
-    "@aws-cdk/aws-ses": "^1.96.0",
-    "@aws-cdk/aws-ses-actions": "^1.96.0",
-    "@aws-cdk/aws-sns": "^1.96.0",
-    "@aws-cdk/aws-ssm": "^1.96.0",
-    "@aws-cdk/core": "^1.96.0",
-    "@aws-cdk/custom-resources": "^1.96.0",
-    "constructs": "^3.2.27"
+    "aws-cdk-lib": "^2.26.0",
+    "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@aws-cdk/aws-iam": "^1.96.0",
-    "@aws-cdk/aws-lambda": "^1.96.0",
-    "@aws-cdk/aws-lambda-nodejs": "^1.96.0",
-    "@aws-cdk/aws-logs": "^1.96.0",
-    "@aws-cdk/aws-s3": "^1.96.0",
-    "@aws-cdk/aws-ses": "^1.96.0",
-    "@aws-cdk/aws-ses-actions": "^1.96.0",
-    "@aws-cdk/aws-sns": "^1.96.0",
-    "@aws-cdk/aws-ssm": "^1.96.0",
-    "@aws-cdk/core": "^1.96.0",
-    "@aws-cdk/custom-resources": "^1.96.0",
-    "@seeebiii/ses-verify-identities": "3.1.2",
-    "aws-lambda": "^1.0.6",
+    "@seeebiii/ses-verify-identities": "4.0.1",
+    "aws-lambda": "^1.0.7",
     "aws-lambda-ses-forwarder": "^5.0.0",
-    "aws-sdk": "^2.858.0"
+    "aws-sdk": "^2.1145.0"
   },
   "bundledDependencies": [
     "@seeebiii/ses-verify-identities",
@@ -103,12 +93,12 @@
   ],
   "main": "lib/index.js",
   "license": "MIT",
-  "version": "3.1.12",
   "homepage": "https://github.com/seeebiii/ses-email-forwarding",
+  "version": "0.0.0",
   "jest": {
     "testMatch": [
-      "**/__tests__/**/*.ts?(x)",
-      "**/?(*.)+(spec|test).ts?(x)"
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/(test|src)/**/?(*.)+(spec|test).ts?(x)"
     ],
     "clearMocks": true,
     "collectCoverage": true,
@@ -116,6 +106,7 @@
       "json",
       "lcov",
       "clover",
+      "cobertura",
       "text"
     ],
     "coverageDirectory": "coverage",
@@ -140,7 +131,7 @@
     "preset": "ts-jest",
     "globals": {
       "ts-jest": {
-        "tsconfig": "tsconfig.jest.json"
+        "tsconfig": "tsconfig.dev.json"
       }
     }
   },
@@ -169,6 +160,9 @@
       "outDir": "lib",
       "rootDir": "src"
     }
+  },
+  "resolutions": {
+    "@types/prettier": "2.6.0"
   },
   "awscdkio": {
     "twitter": "@seeebiii",
