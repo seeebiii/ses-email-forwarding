@@ -1,11 +1,12 @@
 import * as path from 'path';
-import { PolicyStatement } from '@aws-cdk/aws-iam';
-import { Code, Function, Runtime } from '@aws-cdk/aws-lambda';
-import { Bucket } from '@aws-cdk/aws-s3';
-import { ReceiptRule, IReceiptRuleSet, TlsPolicy } from '@aws-cdk/aws-ses';
-import * as actions from '@aws-cdk/aws-ses-actions';
-import { StringParameter } from '@aws-cdk/aws-ssm';
-import { Construct, Duration, RemovalPolicy } from '@aws-cdk/core';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { ReceiptRule, IReceiptRuleSet, TlsPolicy } from 'aws-cdk-lib/aws-ses';
+import * as actions from 'aws-cdk-lib/aws-ses-actions';
+import { StringParameter } from 'aws-cdk-lib/aws-ssm';
+import { Duration, RemovalPolicy } from 'aws-cdk-lib/core';
+import { Construct } from 'constructs';
 
 export interface EmailMapping {
   /**

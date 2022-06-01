@@ -1,7 +1,7 @@
-import { anything, arrayWith, countResources, deepObjectLike, expect as expectCDK, haveResourceLike, objectLike } from '@aws-cdk/assert';
-import { Bucket } from '@aws-cdk/aws-s3';
-import { ReceiptRuleSet } from '@aws-cdk/aws-ses';
-import * as cdk from '@aws-cdk/core';
+import { Match, Template } from 'aws-cdk-lib/assertions';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { ReceiptRuleSet } from 'aws-cdk-lib/aws-ses';
+import * as cdk from 'aws-cdk-lib/core';
 import { EmailForwardingRule } from '../src';
 
 describe('email forwarding rule', () => {
@@ -20,7 +20,7 @@ describe('email forwarding rule', () => {
       ruleSet: receiptRuleSet,
     });
 
-    expectCDK(stack).to(countResources('AWS::SES::ReceiptRule', 0));
+    Template.fromStack(stack).resourceCountIs('AWS::SES::ReceiptRule', 0);
   });
 
   it('ensure rule is created and contains actions', () => {
@@ -41,18 +41,20 @@ describe('email forwarding rule', () => {
       ruleSet: receiptRuleSet,
     });
 
-    expectCDK(stack).to(haveResourceLike('AWS::SES::ReceiptRule', objectLike({
-      Rule: deepObjectLike({
-        Name: `${ruleId}-rule-set`,
-        Actions: arrayWith({
-          S3Action: objectLike({
-            ObjectKeyPrefix: 'inbox/',
-          }),
-        }, {
-          LambdaAction: anything(),
+    Template.fromStack(stack).hasResource('AWS::SES::ReceiptRule', Match.objectLike({
+      Properties: {
+        Rule: Match.objectLike({
+          Name: `${ruleId}-rule-set`,
+          Actions: Match.arrayWith([{
+            S3Action: Match.objectLike({
+              ObjectKeyPrefix: 'inbox/',
+            }),
+          }, {
+            LambdaAction: Match.anyValue(),
+          }]),
         }),
-      }),
-    })));
+      },
+    }));
   });
 
   it('S3 action is using custom bucket and prefix', () => {
@@ -80,19 +82,21 @@ describe('email forwarding rule', () => {
       bucketPrefix: bucketPrefix,
     });
 
-    expectCDK(stack).to(haveResourceLike('AWS::SES::ReceiptRule', objectLike({
-      Rule: deepObjectLike({
-        Name: `${ruleId}-rule-set`,
-        Actions: arrayWith({
-          S3Action: objectLike({
-            BucketName: {
-              Ref: 'examplebucketC9DFA43E',
-            },
-            ObjectKeyPrefix: bucketPrefix,
-          }),
+    Template.fromStack(stack).hasResource('AWS::SES::ReceiptRule', Match.objectLike({
+      Properties: {
+        Rule: Match.objectLike({
+          Name: `${ruleId}-rule-set`,
+          Actions: Match.arrayWith([{
+            S3Action: Match.objectLike({
+              BucketName: {
+                Ref: 'examplebucketC9DFA43E',
+              },
+              ObjectKeyPrefix: bucketPrefix,
+            }),
+          }]),
         }),
-      }),
-    })));
+      },
+    }));
   });
 
   it('custom prefix is suffixed with slash', () => {
@@ -120,19 +124,21 @@ describe('email forwarding rule', () => {
       bucketPrefix: bucketPrefix,
     });
 
-    expectCDK(stack).to(haveResourceLike('AWS::SES::ReceiptRule', objectLike({
-      Rule: deepObjectLike({
-        Name: `${ruleId}-rule-set`,
-        Actions: arrayWith({
-          S3Action: objectLike({
-            BucketName: {
-              Ref: 'examplebucketC9DFA43E',
-            },
-            ObjectKeyPrefix: bucketPrefix + '/',
-          }),
+    Template.fromStack(stack).hasResource('AWS::SES::ReceiptRule', Match.objectLike({
+      Properties: {
+        Rule: Match.objectLike({
+          Name: `${ruleId}-rule-set`,
+          Actions: Match.arrayWith([{
+            S3Action: Match.objectLike({
+              BucketName: {
+                Ref: 'examplebucketC9DFA43E',
+              },
+              ObjectKeyPrefix: bucketPrefix + '/',
+            }),
+          }]),
         }),
-      }),
-    })));
+      },
+    }));
   });
 
   it('Lambda action contains appropriate environment variables', () => {
@@ -162,17 +168,19 @@ describe('email forwarding rule', () => {
       bucketPrefix,
     });
 
-    expectCDK(stack).to(haveResourceLike('AWS::Lambda::Function', objectLike({
-      Environment: deepObjectLike({
-        Variables: {
-          ENABLE_LOGGING: 'false',
-          FROM_EMAIL: 'noreply123@example.org',
-          BUCKET_NAME: {
-            Ref: 'examplebucketC9DFA43E',
+    Template.fromStack(stack).hasResource('AWS::Lambda::Function', Match.objectLike({
+      Properties: {
+        Environment: Match.objectLike({
+          Variables: {
+            ENABLE_LOGGING: 'false',
+            FROM_EMAIL: 'noreply123@example.org',
+            BUCKET_NAME: {
+              Ref: 'examplebucketC9DFA43E',
+            },
+            BUCKET_PREFIX: bucketPrefix,
           },
-          BUCKET_PREFIX: bucketPrefix,
-        },
-      }),
-    })));
+        }),
+      },
+    }));
   });
 });

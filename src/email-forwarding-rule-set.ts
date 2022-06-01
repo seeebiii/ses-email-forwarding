@@ -1,10 +1,11 @@
-import { RetentionDays } from '@aws-cdk/aws-logs';
-import { Bucket } from '@aws-cdk/aws-s3';
-import { IReceiptRuleSet, ReceiptRuleSet } from '@aws-cdk/aws-ses';
-import { Topic } from '@aws-cdk/aws-sns';
-import { CfnOutput, Construct } from '@aws-cdk/core';
-import { AwsCustomResource, PhysicalResourceId } from '@aws-cdk/custom-resources';
 import { NotificationType, VerifySesDomain, VerifySesEmailAddress } from '@seeebiii/ses-verify-identities';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { IReceiptRuleSet, ReceiptRuleSet } from 'aws-cdk-lib/aws-ses';
+import { Topic } from 'aws-cdk-lib/aws-sns';
+import { CfnOutput } from 'aws-cdk-lib/core';
+import { AwsCustomResource, PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
+import { Construct } from 'constructs';
 import { EmailForwardingRule, EmailMapping } from './email-forwarding-rule';
 import { generateSesPolicyForCustomResource } from './helper';
 
