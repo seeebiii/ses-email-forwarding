@@ -336,11 +336,11 @@ Just open an issue or pull request :)
 
 These commands should help you while developing:
 
- * `npx projen`             synthesize changes in [.projenrc.js](.projenrc.js) to the project
- * `npm run build`          compile typescript to js
- * `npm run watch`          watch for changes and compile
- * `npm run test`           perform the jest unit tests
- * `npm run lint`           validate code against best practices
+ * `npx projen`          init [projen](https://github.com/projen/projen) and synthesize changes in [.projenrc.js](.projenrc.js) to the project
+ * `yarn build`          compile typescript to js
+ * `yarn watch`          watch for changes and compile
+ * `yarn test`           perform the jest unit tests
+ * `yarn eslint`         validate code against best practices
 
 ## Thanks
 
@@ -355,7 +355,7 @@ This CDK construct is using it in the Lambda function to forward the emails.
 
 MIT License
 
-Copyright (c) 2020 [Sebastian Hesse](https://www.sebastianhesse.de)
+Copyright (c) 2022 [Sebastian Hesse](https://www.sebastianhesse.de)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
