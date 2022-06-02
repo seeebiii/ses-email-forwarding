@@ -58,7 +58,7 @@
     "jsii-pacmak": "^1.59.0",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^12",
-    "projen": "^0.56.39",
+    "projen": "^0.57.1",
     "standard-version": "^9",
     "ts-jest": "^27",
     "typescript": "^3.9.10"
@@ -71,7 +71,7 @@
     "@seeebiii/ses-verify-identities": "4.0.1",
     "aws-lambda": "^1.0.7",
     "aws-lambda-ses-forwarder": "^5.0.0",
-    "aws-sdk": "^2.1145.0"
+    "aws-sdk": "^2.1147.0"
   },
   "bundledDependencies": [
     "@seeebiii/ses-verify-identities",
