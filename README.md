@@ -34,6 +34,29 @@ new EmailForwardingRuleSet(this, 'EmailForwardingRuleSet', {
 });
 ```
 
+Forward all emails for a domain `example.org` to `whatever+hello@provider.com`:
+
+```javascript
+new EmailForwardingRuleSet(this, 'EmailForwardingRuleSet', {
+  // make the underlying rule set the active one
+  enableRuleSet: true,
+  // define how emails are being forwarded
+  emailForwardingProps: [{
+    // your domain name you want to use for receiving and sending emails
+    domainName: 'example.org',
+    // a prefix that is used for the From email address to forward your mails
+    fromPrefix: 'noreply',
+    // a list of mappings between a prefix and target email address
+    emailMappings: [{
+      // matches all email addresses for 'example.org'
+      receiveEmail: '@example.org',
+      // the target email address(es) that you want to forward emails to
+      targetEmails: ['whatever+hello@provider.com']
+    }]
+  }]
+});
+```
+
 Forward all emails to `hello@example.org` to `whatever+hello@provider.com` and verify the domain `example.org` in SES:
 
 ```javascript
