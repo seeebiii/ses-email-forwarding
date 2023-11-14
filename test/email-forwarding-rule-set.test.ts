@@ -1,12 +1,13 @@
-import { VerifySesDomain } from '@seeebiii/ses-verify-identities';
 import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
+import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { EmailForwardingRuleSet } from '../src';
 
-VerifySesDomain.prototype.getHostedZone = jest.fn().mockReturnValue({
+const mockLookup = jest.fn().mockReturnValue({
   HostedZoneId: 'xxx',
   zoneName: 'xxx',
 });
+HostedZone.fromLookup = mockLookup;
 
 describe('email forwarding rule set', () => {
   it('ensure rule set is created and contains given name', () => {

@@ -61,7 +61,7 @@ export const handler = async (event: S3Event, context: Context): Promise<void> =
         context,
         (err: any) => {
           if (err) {
-            reject();
+            reject(err);
           } else {
             resolve();
           }

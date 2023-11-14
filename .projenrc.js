@@ -1,12 +1,9 @@
-const {
-  awscdk,
-  ProjectType,
-} = require('projen');
+const { AwsCdkConstructLibrary } = require('projen/lib/awscdk');
 
-const project = new awscdk.AwsCdkConstructLibrary({
+const project = new AwsCdkConstructLibrary({
   author: 'Sebastian Hesse',
   authorAddress: 'info@sebastianhesse.de',
-  cdkVersion: '2.26.0',
+  cdkVersion: '2.105.0',
   cdkVersionPinning: false,
   defaultReleaseBranch: 'main',
   jsiiFqn: 'projen.AwsCdkConstructLibrary',
@@ -36,12 +33,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   /* NodePackageOptions */
   devDeps: ['esbuild', '@types/aws-lambda'],
-  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@4.0.1'],
+  bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@4.2.3'],
   homepage: 'https://github.com/seeebiii/ses-email-forwarding',
   keywords: ['aws',
     'aws-cdk',
-    'aws cdk',
-    'aws-ses',
     'aws ses',
     'cdk-construct',
     'email',
@@ -71,8 +66,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   releaseToNpm: true,
   releaseWorkflow: true,
 
-  /* ProjectOptions */
-  projectType: ProjectType.LIB,
+  jestOptions: {
+    jestVersion: '^29.7.0',
+  },
+  typescriptVersion: '^5.2.2',
 });
 
 project.compileTask.exec('esbuild src/lambda/index.ts --bundle --platform=node --target=node12 --external:aws-sdk --outfile=lib/lambda/index.js');

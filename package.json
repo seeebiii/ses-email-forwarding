@@ -25,7 +25,6 @@
     "pre-compile": "npx projen pre-compile",
     "release": "npx projen release",
     "test": "npx projen test",
-    "test:update": "npx projen test:update",
     "test:watch": "npx projen test:watch",
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
@@ -38,40 +37,39 @@
     "organization": false
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.97",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^14",
-    "@typescript-eslint/eslint-plugin": "^5",
-    "@typescript-eslint/parser": "^5",
-    "aws-cdk-lib": "2.26.0",
+    "@types/aws-lambda": "^8.10.126",
+    "@types/jest": "^29.7.0",
+    "@types/node": "^16",
+    "@typescript-eslint/eslint-plugin": "^6",
+    "@typescript-eslint/parser": "^6",
+    "aws-cdk-lib": "2.105.0",
     "constructs": "10.0.5",
-    "esbuild": "^0.14.42",
+    "esbuild": "^0.19.5",
     "eslint": "^8",
-    "eslint-import-resolver-node": "^0.3.6",
     "eslint-import-resolver-typescript": "^2.7.1",
-    "eslint-plugin-import": "^2.26.0",
-    "jest": "^27",
-    "jest-junit": "^13",
-    "jsii": "^1.59.0",
-    "jsii-diff": "^1.59.0",
+    "eslint-plugin-import": "^2.29.0",
+    "jest": "^29.7.0",
+    "jest-junit": "^15",
+    "jsii": "1.x",
+    "jsii-diff": "^1.91.0",
     "jsii-docgen": "^1.8.110",
-    "jsii-pacmak": "^1.59.0",
-    "json-schema": "^0.4.0",
-    "npm-check-updates": "^12",
-    "projen": "^0.57.1",
+    "jsii-pacmak": "^1.91.0",
+    "jsii-rosetta": "1.x",
+    "npm-check-updates": "^16",
+    "projen": "^0.76.27",
     "standard-version": "^9",
-    "ts-jest": "^27",
-    "typescript": "^3.9.10"
+    "ts-jest": "^29.7.0",
+    "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.26.0",
+    "aws-cdk-lib": "^2.105.0",
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@seeebiii/ses-verify-identities": "4.0.1",
+    "@seeebiii/ses-verify-identities": "4.2.3",
     "aws-lambda": "^1.0.7",
-    "aws-lambda-ses-forwarder": "^5.0.0",
-    "aws-sdk": "^2.1147.0"
+    "aws-lambda-ses-forwarder": "^5.1.0",
+    "aws-sdk": "^2.1495.0"
   },
   "bundledDependencies": [
     "@seeebiii/ses-verify-identities",
@@ -79,12 +77,14 @@
     "aws-lambda-ses-forwarder",
     "aws-sdk"
   ],
+  "resolutions": {
+    "@types/babel__traverse": "7.18.2",
+    "@types/prettier": "2.6.0"
+  },
   "keywords": [
     "aws",
-    "aws cdk",
     "aws ses",
     "aws-cdk",
-    "aws-ses",
     "cdk",
     "cdk-construct",
     "email",
@@ -98,7 +98,7 @@
   "jest": {
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",
-      "<rootDir>/(test|src)/**/?(*.)+(spec|test).ts?(x)"
+      "<rootDir>/(test|src)/**/*(*.)@(spec|test).ts?(x)"
     ],
     "clearMocks": true,
     "collectCoverage": true,
@@ -160,9 +160,6 @@
       "outDir": "lib",
       "rootDir": "src"
     }
-  },
-  "resolutions": {
-    "@types/prettier": "2.6.0"
   },
   "awscdkio": {
     "twitter": "@seeebiii",

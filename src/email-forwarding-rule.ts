@@ -10,7 +10,7 @@ import { Construct } from 'constructs';
 
 export interface EmailMapping {
   /**
-   * You can define a string that is matching an email address, e.g. `hello@example.org`.
+   * You can define a string that is matching an email address, e.g. `hello@example.org`. To catch all emails, just use `@` and your domain as the value, e.g. `@example.org`.
    *
    * If this property is defined, the `receivePrefix` will be ignored. You must define either this property or `receivePrefix`, otherwise no emails will be forwarded.
    */
@@ -193,7 +193,7 @@ export class EmailForwardingRule extends Construct {
     bucketPrefix: string,
   ) {
     return new Function(this, 'EmailForwardingFunction', {
-      runtime: Runtime.NODEJS_12_X,
+      runtime: Runtime.NODEJS_18_X,
       handler: 'index.handler',
       code: Code.fromAsset(path.join(__dirname, 'lambda')),
       timeout: Duration.seconds(30),
