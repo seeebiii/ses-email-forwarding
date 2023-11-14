@@ -90,7 +90,7 @@
           "exec": "jsii --silence-warnings=reserved-word"
         },
         {
-          "exec": "esbuild src/lambda/index.ts --bundle --platform=node --target=node12 --external:aws-sdk --outfile=lib/lambda/index.js"
+          "exec": "esbuild src/lambda/index.ts --bundle --platform=node --target=node18 --external:aws-sdk --outfile=lib/lambda/index.js"
         }
       ]
     },

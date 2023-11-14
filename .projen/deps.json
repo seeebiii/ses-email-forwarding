@@ -6,7 +6,7 @@
     },
     {
       "name": "@types/jest",
-      "version": "^29.7.0",
+      "version": "^27",
       "type": "build"
     },
     {
@@ -48,7 +48,7 @@
     },
     {
       "name": "jest",
-      "version": "^29.7.0",
+      "version": "^27",
       "type": "build"
     },
     {
@@ -89,7 +89,7 @@
     },
     {
       "name": "ts-jest",
-      "version": "^29.7.0",
+      "version": "^27",
       "type": "build"
     },
     {

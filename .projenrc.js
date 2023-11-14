@@ -32,7 +32,7 @@ const project = new AwsCdkConstructLibrary({
   },
 
   /* NodePackageOptions */
-  devDeps: ['esbuild', '@types/aws-lambda'],
+  devDeps: ['esbuild', '@types/aws-lambda', 'jest@^29.7.0', '@types/jest@^29.5.8', 'ts-jest@^29.1.1'],
   bundledDeps: ['aws-lambda-ses-forwarder', 'aws-sdk', 'aws-lambda', '@seeebiii/ses-verify-identities@4.2.3'],
   homepage: 'https://github.com/seeebiii/ses-email-forwarding',
   keywords: ['aws',
@@ -66,12 +66,9 @@ const project = new AwsCdkConstructLibrary({
   releaseToNpm: true,
   releaseWorkflow: true,
 
-  jestOptions: {
-    jestVersion: '^29.7.0',
-  },
   typescriptVersion: '^5.2.2',
 });
 
-project.compileTask.exec('esbuild src/lambda/index.ts --bundle --platform=node --target=node12 --external:aws-sdk --outfile=lib/lambda/index.js');
+project.compileTask.exec('esbuild src/lambda/index.ts --bundle --platform=node --target=node18 --external:aws-sdk --outfile=lib/lambda/index.js');
 
 project.synth();
