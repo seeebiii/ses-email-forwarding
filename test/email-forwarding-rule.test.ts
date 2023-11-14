@@ -183,4 +183,45 @@ describe('email forwarding rule', () => {
       },
     }));
   });
+
+  it('ensure catch-all email is properly configured', () => {
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
+
+    const ruleId = 'example.org-id';
+    const receiptRuleSet = new ReceiptRuleSet(stack, 'example', {});
+
+    new EmailForwardingRule(stack, 'ExampleRule', {
+      domainName: 'example.org',
+      fromPrefix: 'noreply',
+      id: ruleId,
+      emailMapping: [{
+        receiveEmail: '@example.org',
+        targetEmails: ['admin+hello@gmail.com'],
+      }],
+      ruleSet: receiptRuleSet,
+    });
+
+    Template.fromStack(stack).hasResource('AWS::SES::ReceiptRule', Match.objectLike({
+      Properties: {
+        Rule: Match.objectLike({
+          Name: `${ruleId}-rule-set`,
+          Actions: Match.arrayWith([{
+            S3Action: Match.objectLike({
+              ObjectKeyPrefix: 'inbox/',
+            }),
+          }, {
+            LambdaAction: Match.anyValue(),
+          }]),
+          Recipients: ['example.org'],
+        }),
+      },
+    }));
+
+    Template.fromStack(stack).hasResource('AWS::SSM::Parameter', Match.objectLike({
+      Properties: {
+        Value: JSON.stringify({ '@example.org': ['admin+hello@gmail.com'] }),
+      },
+    }));
+  });
 });

@@ -129,12 +129,13 @@ export class EmailForwardingRule extends Construct {
       scanEnabled: true,
       receiptRuleName: props.id + '-rule-set',
       tlsPolicy: TlsPolicy.REQUIRE,
-      recipients: Object.keys(forwardMapping),
+      // catch all recipients may not start with '@' and just include the domain
+      recipients: Object.keys(forwardMapping).map(val => val.startsWith('@') ? val.substring(1) : val),
     });
   }
 
   private convertForwardMappingToMap(props: EmailForwardingRuleProps) {
-    const forwardMapping: { [key: string]: string[] } = {};
+    const forwardMapping: Record<string, string[]> = {};
     props.emailMapping.forEach((val) => {
       let email = val.receiveEmail;
       if (!email && val.receivePrefix) {
