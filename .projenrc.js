@@ -69,6 +69,6 @@ const project = new AwsCdkConstructLibrary({
   typescriptVersion: '^5.2.2',
 });
 
-project.compileTask.exec('esbuild src/lambda/index.ts --bundle --platform=node --target=node18 --external:aws-sdk --outfile=lib/lambda/index.js');
+project.compileTask.exec('esbuild src/lambda/index.ts --bundle --platform=node --target=node18 --outfile=lib/lambda/index.js');
 
 project.synth();
