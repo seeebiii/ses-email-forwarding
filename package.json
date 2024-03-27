@@ -37,26 +37,25 @@
     "organization": false
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.126",
+    "@types/aws-lambda": "^8.10.136",
     "@types/jest": "^27",
-    "@types/node": "^16",
+    "@types/node": "^16 <= 16.18.78",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
     "aws-cdk-lib": "2.105.0",
     "constructs": "10.0.5",
-    "esbuild": "^0.19.5",
+    "esbuild": "^0.20.2",
     "eslint": "^8",
     "eslint-import-resolver-typescript": "^2.7.1",
-    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-import": "^2.29.1",
     "jest": "^27",
     "jest-junit": "^15",
     "jsii": "1.x",
-    "jsii-diff": "^1.91.0",
+    "jsii-diff": "^1.96.0",
     "jsii-docgen": "^1.8.110",
-    "jsii-pacmak": "^1.91.0",
+    "jsii-pacmak": "^1.96.0",
     "jsii-rosetta": "1.x",
-    "npm-check-updates": "^16",
-    "projen": "^0.76.27",
+    "projen": "^0.80.13",
     "standard-version": "^9",
     "ts-jest": "^27",
     "typescript": "^5.2.2"
@@ -69,7 +68,7 @@
     "@seeebiii/ses-verify-identities": "4.2.3",
     "aws-lambda": "^1.0.7",
     "aws-lambda-ses-forwarder": "^5.1.0",
-    "aws-sdk": "^2.1495.0"
+    "aws-sdk": "^2.1586.0"
   },
   "bundledDependencies": [
     "@seeebiii/ses-verify-identities",
